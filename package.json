@@ -1,0 +1,66 @@
+{
+    "name": "update-pkg-extended",
+    "version": "1.0.0",
+    "description": "Update package.json with ease",
+    "license": "MIT",
+    "repository": "panz3r/update-pkg-extended",
+    "bugs": {
+        "url": "https://github.com/panz3r/update-pkg-extended/issues"
+    },
+    "author": {
+        "name": "panz3r",
+        "email": "mattia.panzeri93@gmail.com",
+        "url": "github.com/panz3r"
+    },
+    "credits": {
+        "originalCodebase": {
+            "name": "update-pkg",
+            "author": {
+                "name": "EGOIST",
+                "email": "0x142857@gmail.com",
+                "url": "github.com/egoist"
+            },
+            "license": "MIT"
+        },
+        "versionFeatureInspiredBy": {
+            "name": "versiony",
+            "author": {
+                "name": "ciena-blueplanet",
+                "url": "github.com/ciena-blueplanet"
+            },
+            "license": "MIT"
+        }
+    },
+    "engines": {
+        "node": ">=4"
+    },
+    "scripts": {
+        "lint": "standard",
+        "lint:fix": "standard --fix",
+        "test": "ava",
+        "coverage:html": "nyc ava && nyc report --reporter=html",
+        "coveralls": "nyc ava && nyc report --reporter=text-lcov | coveralls",
+        "prepublishOnly": "npm run lint && npm run test"
+    },
+    "main": "./src/index.js",
+    "files": [
+        "./src/"
+    ],
+    "keywords": [
+        "npm",
+        "package",
+        "package.json"
+    ],
+    "devDependencies": {
+        "ava": "^0.19.1",
+        "coveralls": "^2.13.1",
+        "nyc": "^11.0.1",
+        "rimraf": "^2.6.1",
+        "standard": "*"
+    },
+    "dependencies": {
+        "dot-prop": "^4.0.0",
+        "mkdirp": "^0.5.1",
+        "pify": "^2.3.0"
+    }
+}

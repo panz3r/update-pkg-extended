@@ -1,0 +1,4 @@
+.coveralls.yml
+.nyc_output/
+coverage/
+test/
