@@ -74,14 +74,14 @@ The parsed content of `package.json`.
 
 Set value by the given `keyPath` like `author.name` and `value` like `panz3r`.
 
-### .get(keyPath)
+### .get(keyPath [,defaultValue])
 
-Get value by the given keyPath.
+Get value by the given keyPath.<br>
+If `keyPath` is not found and `defaultValue` is specified, `defaultValue` will be returned, otherwise will return `undefined`
 
 ### .version
 
-Type: `object`<br>
-Return: `Version`
+Type: `Version`
 
 Manage version field in a `semver`-compatible way
 

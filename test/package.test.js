@@ -53,6 +53,28 @@ test('get property', async t => {
   t.is(pkgName, 'update-pkg-extended')
 })
 
+test('get undefined property (with default value)', async t => {
+  // Setup
+  const pkg = new Pkg() // => Load real `package.json`
+
+  // Actions
+  const value = pkg.get('defaultValue', 'default')
+
+  // Expectations
+  t.is(value, 'default')
+})
+
+test('get undefined property (without default value)', async t => {
+  // Setup
+  const pkg = new Pkg() // => Load real `package.json`
+
+  // Actions
+  const value = pkg.get('defaultValue')
+
+  // Expectations
+  t.is(value, undefined)
+})
+
 test('set property', async t => {
   // Setup
   const pkg = new Pkg(testDir)

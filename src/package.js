@@ -39,8 +39,8 @@ module.exports = class Pkg {
     return this
   }
 
-  get (prop) {
-    return dotProp.get(this.data, prop)
+  get (prop, defaultValue) {
+    return dotProp.get(this.data, prop, defaultValue)
   }
 
   del (prop) {
