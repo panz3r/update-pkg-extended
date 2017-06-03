@@ -1,6 +1,7 @@
 {
     "name": "update-pkg-extended",
     "version": "1.0.0",
+    "versionName": "Avocado",
     "description": "Update package.json with ease",
     "license": "MIT",
     "repository": "panz3r/update-pkg-extended",
