@@ -12,6 +12,12 @@ script:
   - npm run test
   - npm run coveralls
 
+deploy:
+  provider: npm
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
+
 notifications:
   email: false
   webhooks:
