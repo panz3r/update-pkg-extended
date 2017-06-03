@@ -1,6 +1,6 @@
 {
     "name": "update-pkg-extended",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "versionName": "Avocado",
     "description": "Update package.json with ease",
     "license": "MIT",
@@ -45,7 +45,7 @@
     },
     "main": "./src/index.js",
     "files": [
-        "./src/"
+        "/src/*.js"
     ],
     "keywords": [
         "npm",
