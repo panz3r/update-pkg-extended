@@ -9,7 +9,7 @@ test('version setup (without data)', t => {
   const version = new Version()
 
   // Expectations
-  t.deepEqual(version.v, [0, 0, 0])
+  t.deepEqual(version._v, [0, 0, 0])
 })
 
 test('version setup (with data without version)', t => {
@@ -17,7 +17,7 @@ test('version setup (with data without version)', t => {
   const version = new Version(Object.assign({}, sampleDataNoVer))
 
   // Expectations
-  t.deepEqual(version.v, [0, 0, 0])
+  t.deepEqual(version._v, [0, 0, 0])
 })
 
 test('get version', t => {
@@ -26,6 +26,30 @@ test('get version', t => {
 
   // Expectations
   t.is(version.get(), '0.0.1')
+})
+
+test('get Major version segment', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations
+  t.is(version.get('major'), '0')
+})
+
+test('get Minor version segment', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations
+  t.is(version.get('minor'), '0')
+})
+
+test('get Patch version segment', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations
+  t.is(version.get('patch'), '1')
 })
 
 test('newMajor version', t => {

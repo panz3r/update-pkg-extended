@@ -85,9 +85,16 @@ Type: `Version`
 
 Manage version field in a `semver`-compatible way
 
-##### .get()
+##### .get([segment])
 
-Return formatted version (`0.0.3`)
+Return formatted version (`0.0.3`) if `segment` is not specified, otherwise returns the required `segment`
+
+###### segment
+
+Type: `string`<br>
+Default: `undefined`
+
+Specify required version `segment`, should be one of `major`, `minor` or `patch`
 
 ##### .newMajor()
 
