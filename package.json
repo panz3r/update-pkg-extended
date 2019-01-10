@@ -62,6 +62,6 @@
     "dependencies": {
         "dot-prop": "^4.2.0",
         "mkdirp": "^0.5.1",
-        "pify": "^2.3.0"
+        "pify": "^4.0.1"
     }
 }
