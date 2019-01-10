@@ -1,46 +1,62 @@
 import test from 'ava'
-import { mkdtempSync, writeFileSync } from 'fs'
+import { writeFileSync } from 'fs'
+import { join } from 'path'
+import readPkg from 'read-pkg'
 import { sync as rm } from 'rimraf'
-import { join, sep } from 'path'
+import tmp from 'tmp'
+
 import Pkg from '../'
 
-const testDir = join(__dirname, sep)
-const testPackage = join(testDir, './package.json')
-const notExistingPath = join(__dirname, '/not-existing')
-const fixturePath = mkdtempSync(testDir)
-const fixturePackage = join(fixturePath, './package.json')
-
-test.before('create test package.json', t => {
-  writeFileSync(testPackage, JSON.stringify({ name: 'test package', version: '0.0.1' }), 'utf8')
+// Create tmp dir for each test
+test.beforeEach(t => {
+  t.context.tmpDir = tmp.dirSync().name
 })
+
+// Cleanup tmp dir
+test.afterEach.always(t => {
+  rm(t.context.tmpDir)
+})
+
+// CONSTRUCTOR
 
 test('package not found', async t => {
+  const { tmpDir } = t.context
+
   // Actions
-  const err = t.throws(() => new Pkg(fixturePath))
+  const err = t.throws(() => new Pkg(tmpDir))
 
   // Expectations
-  t.is(err.code, 'MODULE_NOT_FOUND')
-})
-
-test('create package (not-existing path)', async t => {
-  // Actions
-  const pkg = new Pkg(notExistingPath, { create: true })
-  pkg.set('foo', 'bar')
-  await pkg.save()
-
-  // Expectations
-  t.is(require(join(notExistingPath, './package.json')).foo, 'bar')
+  t.is(err.code, 'ENOENT')
 })
 
 test('create package', async t => {
+  const { tmpDir } = t.context
+
+  // Setup
+  const pkg = new Pkg(tmpDir, { create: true })
+
   // Actions
-  const pkg = new Pkg(fixturePath, { create: true })
   pkg.set('foo', 'bar')
   await pkg.save()
 
   // Expectations
-  t.is(require(fixturePackage).foo, 'bar')
+  const tstPkg = readPkg.sync({ cwd: tmpDir })
+  t.is(tstPkg.foo, 'bar')
 })
+
+// PATH
+
+test('get package.json path', async t => {
+  const { tmpDir } = t.context
+
+  // Actions
+  const pkg = new Pkg(tmpDir, { create: true })
+
+  // Expectations
+  t.is(pkg.path, join(tmpDir, 'package.json'))
+})
+
+// GET
 
 test('get property', async t => {
   // Setup
@@ -75,48 +91,66 @@ test('get undefined property (without default value)', async t => {
   t.is(value, undefined)
 })
 
+// SET
+
 test('set property', async t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
+  const pkg = new Pkg(tmpDir, { create: true })
 
   // Actions
   pkg.set('foo', 'bar')
   await pkg.save()
 
   // Expectations
-  t.is(require(testPackage).foo, 'bar')
+  const tstPkg = await readPkg({ cwd: tmpDir })
+  t.is(tstPkg.foo, 'bar')
 })
 
 test('set deep property', async t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
+  const pkg = new Pkg(tmpDir, { create: true })
 
   // Actions
   pkg.set('bar.baz', 'foo')
   await pkg.save()
 
   // Expectations
-  t.is(require(testPackage).bar.baz, 'foo')
+  const savedPkg = await readPkg({ cwd: tmpDir })
+  t.is(savedPkg.bar.baz, 'foo')
 })
 
+// DEL
+
 test('del property', async t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
+  const pkg = new Pkg(tmpDir, { create: true })
   pkg.set('baz', 'delete me!')
   await pkg.save()
-  t.is(require(testPackage).baz, 'delete me!')
+  const tstPkg = await readPkg({ cwd: tmpDir })
+  t.is(tstPkg.baz, 'delete me!')
 
   // Actions
   pkg.del('baz')
   await pkg.save()
 
   // Expectations
-  t.is(require(testPackage).baz, undefined)
+  const savedPackage = await readPkg({ cwd: tmpDir })
+  t.is(savedPackage.baz, undefined)
 })
 
+// HAS
+
 test('has property', async t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
+  const pkg = new Pkg(tmpDir, { create: true })
 
   // Actions
   let variableExists = pkg.has('exists')
@@ -134,9 +168,14 @@ test('has property', async t => {
   t.truthy(variableExists)
 })
 
+// VERSION
+
 test('version property', async t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
+  _createMockPackage(tmpDir)
+  const pkg = new Pkg(tmpDir)
 
   // Actions
   const version = pkg.version.get()
@@ -145,21 +184,26 @@ test('version property', async t => {
   t.is(version, '0.0.1')
 })
 
+// SAVE
+
 test('saveSync', t => {
+  const { tmpDir } = t.context
+
   // Setup
-  const pkg = new Pkg(testDir)
-  pkg.set('asyncSave', 'tested')
+  const pkg = new Pkg(tmpDir, { create: true })
+  pkg.set('syncSave', 'tested')
 
   // Actions
   pkg.saveSync()
 
   // Expectations
-  t.is(require(testPackage).asyncSave, 'tested')
+  const savedPkg = readPkg.sync({ cwd: tmpDir })
+  t.is(savedPkg.syncSave, 'tested')
 })
 
-// Cleanup
-test.after.always('cleanup', t => {
-  rm(testPackage)
-  rm(fixturePath)
-  rm(notExistingPath)
-})
+// Utils
+
+function _createMockPackage (path) {
+  const testPackage = join(path, './package.json')
+  writeFileSync(testPackage, JSON.stringify({ name: 'test-package', version: '0.0.1' }), 'utf8')
+}
