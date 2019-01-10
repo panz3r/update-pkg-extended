@@ -6,17 +6,35 @@ node_js:
   - "8"
   - "6"
 
-script:
-  - npm run lint
-  - npm run test
-  - npm run coveralls
+cache:
+  - npm
+  - yarn
 
-deploy:
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: lint
+      node_js: "node"
+      script: echo "Linting code..." && npm run lint
+      if: branch = master
+
+    - stage: test
+      script: echo "Running tests against $(node -v) ..." && npm run test
+
+    - stage: coverage
+      node_js: "node"
+      script: echo "Running test coverage" && npm run coveralls
+      if: branch = master
+
+    - stage: release
+      node_js: "node"
+      script: echo "Deploying to npm ..."
+      if: branch = master
+      deploy:
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_TOKEN
+        on:
+          tags: true
 
 notifications:
   email: false
