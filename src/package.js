@@ -1,65 +1,65 @@
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
-const pify = require('pify')
-const mkdirp = require('mkdirp')
 const dotProp = require('dot-prop')
-const Version = require('./version')
+const path = require('path')
+const readPkg = require('read-pkg')
+const writePkg = require('write-pkg')
 
-const DEFAULT_INDENT = 4
+const Version = require('./version')
 
 function resolvePkg (dir) {
   dir = dir || './'
-  return path.resolve(dir, 'package.json')
+  return path.resolve(dir)
 }
 
 module.exports = class Pkg {
   constructor (cwd, options) {
-    options = options || {}
-    const create = options.create
-    this.pkg = resolvePkg(cwd)
+    this.options = Object.assign({ create: false }, options)
 
+    // Store CWD
+    this._cwd = resolvePkg(cwd)
+
+    // Load data from package.json
+    this._data = {}
     try {
-      this.data = require(this.pkg)
+      this._data = readPkg.sync({ cwd: this._cwd })
     } catch (err) {
-      if (err.code === 'MODULE_NOT_FOUND' && create) {
-        mkdirp.sync(cwd)
-        this.data = {}
-      } else {
+      if (err.code !== 'ENOENT' || (err.code === 'ENOENT' && !this.options.create)) {
         throw err
       }
     }
 
-    this.version = new Version(this.data)
+    // Setup path
+    this.path = path.resolve(this._cwd, 'package.json')
+
+    // Setup version
+    this.version = new Version(this._data)
   }
 
   set (prop, value) {
-    dotProp.set(this.data, prop, value)
+    dotProp.set(this._data, prop, value)
     return this
   }
 
   get (prop, defaultValue) {
-    return dotProp.get(this.data, prop, defaultValue)
+    return dotProp.get(this._data, prop, defaultValue)
   }
 
   del (prop) {
-    dotProp.delete(this.data, prop)
+    dotProp.delete(this._data, prop)
     return this
   }
 
   has (prop) {
-    return dotProp.has(this.data, prop)
+    return dotProp.has(this._data, prop)
   }
 
-  save (indent) {
-    indent = indent || DEFAULT_INDENT
-    return pify(fs.writeFile)(this.pkg, JSON.stringify(this.data, null, indent), 'utf8')
+  save () {
+    return writePkg(this._cwd, this._data)
   }
 
-  saveSync (indent) {
-    indent = indent || DEFAULT_INDENT
-    fs.writeFileSync(this.pkg, JSON.stringify(this.data, null, indent), 'utf8')
+  saveSync () {
+    writePkg.sync(this._cwd, this._data)
     return this
   }
 }
