@@ -62,8 +62,6 @@
     },
     "dependencies": {
         "dot-prop": "^4.2.0",
-        "mkdirp": "^0.5.1",
-        "pify": "^4.0.1",
         "read-pkg": "^4.0.1",
         "write-pkg": "^3.2.0"
     }
