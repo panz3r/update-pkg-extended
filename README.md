@@ -161,21 +161,19 @@ pkg.version.patch(9) // => '0.0.9'
 ```
 
 
-### .save([indent])
+### .save()
 
 Type: `function`<br>
 Return: `Promise`
 
 Save data to `package.json`.
-Default `indent` is `4`
 
-### .saveSync([indent])
+### .saveSync()
 
 Type: `function`<br>
 Return: `this`
 
-Save data to `package.json` but synchronously.
-Default `indent` is `4`
+Save data to `package.json` synchronously.
 
 ## Credits
 - Original codebase credits goes to [EGOIST](https://github.com/egoist)'s [update-pkg](https://github.com/egoist/update-pkg)
