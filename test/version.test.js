@@ -9,7 +9,7 @@ test('version setup (without data)', t => {
   const version = new Version()
 
   // Expectations
-  t.deepEqual(version._v, [0, 0, 0])
+  t.is(version.get(), '0.0.0')
 })
 
 test('version setup (with data without version)', t => {
@@ -17,7 +17,7 @@ test('version setup (with data without version)', t => {
   const version = new Version(Object.assign({}, sampleDataNoVer))
 
   // Expectations
-  t.deepEqual(version._v, [0, 0, 0])
+  t.is(version.get(), '0.0.0')
 })
 
 test('get version', t => {
@@ -215,4 +215,74 @@ test('patch version (after newMajor and newMinor)', t => {
 
   // Expectations
   t.is(version.get(), '1.1.1')
+})
+
+const preReleaseSampleDataNumeric = { name: 'test package', version: '1.0.0-0.3.7' }
+const preReleaseSampleDataAlpha = { name: 'test package', version: '1.0.0-alpha' }
+const preReleaseSampleDataAlphaNumeric = { name: 'test package', version: '1.0.0-alpha.1' }
+const preReleaseSampleDataMixed = { name: 'test package', version: '1.0.0-x.7.z.92' }
+
+test('preRelease (should handle numeric preRelease)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
+
+  // Expectations
+  t.is(version.get(), preReleaseSampleDataNumeric.version)
+})
+
+test('preRelease (should handle alphabetic preRelease)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataAlpha))
+
+  // Expectations
+  t.is(version.get(), preReleaseSampleDataAlpha.version)
+})
+
+test('preRelease (should handle alphaNumeric preRelease)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
+
+  // Expectations
+  t.is(version.get(), preReleaseSampleDataAlphaNumeric.version)
+})
+
+test('preRelease (should handle mixed preRelease)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataMixed))
+
+  // Expectations
+  t.is(version.get(), preReleaseSampleDataMixed.version)
+})
+
+test('preRelease (should remove when updating Major)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
+
+  // Actions
+  version.newMajor()
+
+  // Expectations
+  t.is(version.get(), '1.0.0')
+})
+
+test('preRelease (should remove when updating minor)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
+
+  // Actions
+  version.newMinor()
+
+  // Expectations
+  t.is(version.get(), '1.0.0')
+})
+
+test('preRelease (should remove when updating patch)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
+
+  // Actions
+  version.newPatch()
+
+  // Expectations
+  t.is(version.get(), '1.0.0')
 })
