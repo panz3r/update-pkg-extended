@@ -1,34 +1,30 @@
 'use strict'
 
 const dotProp = require('dot-prop')
+const semver = require('semver')
 
 module.exports = class Version {
   constructor (sourceData) {
     this.data = sourceData
-
-    this._v = []
-    if (dotProp.has(this.data, 'version')) {
-      this._v = dotProp.get(this.data, 'version').split('.')
-    }
-
-    this._v.length < 1 && (this._v[0] = 0)
-    this._v.length < 2 && (this._v[1] = 0)
-    this._v.length < 3 && (this._v[2] = 0)
+    this._v = semver.parse(dotProp.get(this.data, 'version', '0.0.0'))
   }
 
   get (segment) {
     switch (segment) {
       case 'major':
-        return this._v[0]
+        return this._v.major.toString()
 
       case 'minor':
-        return this._v[1]
+        return this._v.minor.toString()
 
       case 'patch':
-        return this._v[2]
+        return this._v.patch.toString()
+
+      case 'prelease':
+        return this._v.prerelease
 
       default:
-        return this._v.join('.')
+        return this._v.format()
     }
   }
 
@@ -38,25 +34,32 @@ module.exports = class Version {
   }
 
   newMajor () {
-    return this.major().minor(0).patch(0)
+    this._v.inc('major')
+    return this._set()
   }
 
   newMinor () {
-    return this.minor().patch(0)
+    this._v.inc('minor')
+    return this._set()
+  }
+
+  newPatch () {
+    this._v.inc('patch')
+    return this._set()
   }
 
   major (major) {
-    major !== undefined && major !== null ? this._v[0] = major : ++this._v[0]
+    major !== undefined && major !== null ? this._v.major = major : this._v.major++
     return this._set()
   }
 
   minor (minor) {
-    minor !== undefined && minor !== null ? this._v[1] = minor : ++this._v[1]
+    minor !== undefined && minor !== null ? this._v.minor = minor : this._v.minor++
     return this._set()
   }
 
   patch (patch) {
-    patch !== undefined && patch !== null ? this._v[2] = patch : ++this._v[2]
+    patch !== undefined && patch !== null ? this._v.patch = patch : this._v.patch++
     return this._set()
   }
 }
