@@ -21,7 +21,7 @@ module.exports = class Version {
         return this._v.patch.toString()
 
       case 'prelease':
-        return this._v.prerelease
+        return this._v.prerelease && this._v.prerelease.length > 0 ? this._v.prerelease.join('.') : null
 
       default:
         return this._v.format()

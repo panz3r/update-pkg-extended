@@ -222,6 +222,22 @@ const preReleaseSampleDataAlpha = { name: 'test package', version: '1.0.0-alpha'
 const preReleaseSampleDataAlphaNumeric = { name: 'test package', version: '1.0.0-alpha.1' }
 const preReleaseSampleDataMixed = { name: 'test package', version: '1.0.0-x.7.z.92' }
 
+test('preRelease (get)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
+
+  // Expectations
+  t.is(version.get('prelease'), 'alpha.1')
+})
+
+test('preRelease (get null)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations
+  t.is(version.get('prelease'), null)
+})
+
 test('preRelease (should handle numeric preRelease)', t => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
