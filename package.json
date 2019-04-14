@@ -1,6 +1,6 @@
 {
     "name": "update-pkg-extended",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "versionName": "Babaco",
     "description": "Update package.json with ease",
     "license": "MIT",
@@ -11,7 +11,7 @@
     "author": {
         "name": "panz3r",
         "email": "mattia.panzeri93@gmail.com",
-        "url": "github.com/panz3r"
+        "url": "https://github.com/panz3r"
     },
     "credits": {
         "originalCodebase": {
