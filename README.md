@@ -94,7 +94,7 @@ Return formatted version (`0.0.3`) if `segment` is not specified, otherwise retu
 Type: `string`<br>
 Default: `undefined`
 
-Specify required version `segment`, should be one of `major`, `minor` or `patch`
+Specify required version `segment`, should be one of `major`, `minor`, `patch` or `prerelease`
 
 ##### .newMajor()
 
@@ -159,6 +159,22 @@ pkg.version.patch() // => '0.0.4'
 // Set minor version to specified value
 pkg.version.patch(9) // => '0.0.9'
 ```
+
+##### .prerelease(prereleaseIdentifier, [prereleaseVersion])
+
+Increment or set `prerelease` version
+
+```js
+pkg.version.get() // => '0.0.3'
+
+// Set prerelease version to specified value
+pkg.version.prerelease('beta', 9) // => '0.0.3-beta.9'
+
+// Increment prerelease version
+pkg.version.prerelease('beta') // => '0.0.4-beta.0'
+```
+
+**N.B:** Bumping `prerelease` version when it is not set will also bump `patch` version
 
 
 ### .save()
