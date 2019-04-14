@@ -172,6 +172,9 @@ pkg.version.prerelease('beta', 9) // => '0.0.3-beta.9'
 
 // Increment prerelease version
 pkg.version.prerelease('beta') // => '0.0.4-beta.0'
+
+// Increment prerelease version
+pkg.version.prerelease('beta') // => '0.0.4-beta.1'
 ```
 
 **N.B:** Bumping `prerelease` version when it is not set will also bump `patch` version
