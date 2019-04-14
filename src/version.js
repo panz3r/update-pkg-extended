@@ -62,4 +62,18 @@ module.exports = class Version {
     patch !== undefined && patch !== null ? this._v.patch = patch : this._v.patch++
     return this._set()
   }
+
+  prerelease (preleaseIdentifier, preleaseVersion) {
+    if (!preleaseIdentifier) {
+      throw new Error('Missing required argument preleaseIdentifier')
+    }
+
+    if (preleaseVersion !== undefined && preleaseVersion !== null) {
+      this._v.prerelease = [preleaseIdentifier, preleaseVersion]
+    } else {
+      this._v.inc('prerelease', preleaseIdentifier)
+    }
+
+    return this._set()
+  }
 }

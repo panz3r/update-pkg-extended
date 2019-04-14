@@ -302,3 +302,46 @@ test('preRelease (should remove when updating patch)', t => {
   // Expectations
   t.is(version.get(), '1.0.0')
 })
+
+test('preRelease (increment)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
+
+  // Actions
+  version.prerelease('alpha')
+
+  // Expectations
+  t.is(version.get(), '1.0.0-alpha.2')
+})
+
+test('preRelease (increment not set)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Actions
+  version.prerelease('beta')
+
+  // Expectations
+  t.is(version.get(), '0.0.2-beta.0')
+})
+
+test('preRelease (set)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Actions
+  version.prerelease('beta', 9)
+
+  // Expectations
+  t.is(version.get(), '0.0.1-beta.9')
+})
+
+test('preRelease (missing argument)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations
+  t.throws(() => {
+    version.prerelease()
+  })
+})
