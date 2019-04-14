@@ -24,7 +24,6 @@ jobs:
     - stage: release
       node_js: "node"
       script: echo "Deploying to npm ..."
-      if: branch = master
       deploy:
         provider: npm
         email: $NPM_EMAIL
