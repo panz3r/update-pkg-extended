@@ -192,9 +192,14 @@ Return: `this`
 Save data to `package.json` synchronously.
 
 ## Credits
+
 - Original codebase credits goes to [EGOIST](https://github.com/egoist)'s [update-pkg](https://github.com/egoist/update-pkg)
 - `Version` feature is inspired by [ciena-blueplanet](https://github.com/ciena-blueplanet)'s [versiony](https://github.com/ciena-blueplanet/versiony)
 
-## License
+---
 
-MIT © [panz3r](https://github.com/panz3r)
+Made with :sparkles: & :heart: by [Mattia Panzeri](https://github.com/panz3r) and [contributors](https://github.com/panz3r/update-pkg-extended/graphs/contributors)
+
+If you found this project to be helpful, please consider buying me a coffee.
+
+[![buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/white_img.png)](https://buymeacoff.ee/4f18nT0Nk)
