@@ -205,4 +205,4 @@ Made with :sparkles: & :heart: by [Mattia Panzeri](https://github.com/panz3r) an
 
 If you found this project to be helpful, please consider buying me a coffee.
 
-[![buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/4f18nT0Nk)
+[![buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/4f18nT0Nk) [![Greenkeeper badge](https://badges.greenkeeper.io/panz3r/update-pkg-extended.svg)](https://greenkeeper.io/)
