@@ -1,12 +1,12 @@
 'use strict'
 
 const dotProp = require('dot-prop')
-const semver = require('semver')
+const svParse = require('semver/functions/parse')
 
 module.exports = class Version {
   constructor (sourceData) {
     this.data = sourceData
-    this._v = semver.parse(dotProp.get(this.data, 'version', '0.0.0'))
+    this._v = svParse(dotProp.get(this.data, 'version', '0.0.0'))
   }
 
   get (segment) {
