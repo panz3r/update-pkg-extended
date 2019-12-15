@@ -65,7 +65,7 @@
     "dependencies": {
         "dot-prop": "^5.1.0",
         "read-pkg": "^5.2.0",
-        "semver": "^6.2.0",
+        "semver": "^7.0.0",
         "write-pkg": "^4.0.0"
     },
     "husky": {
