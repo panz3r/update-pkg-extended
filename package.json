@@ -41,7 +41,10 @@
         "test": "ava",
         "coverage:html": "nyc ava && nyc report --reporter=html",
         "coveralls": "nyc ava && nyc report --reporter=text-lcov | coveralls",
-        "prepublishOnly": "npm run lint && npm run test"
+        "prepublishOnly": "npm run lint && npm run test",
+        "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version major --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'",
+        "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version minor --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'",
+        "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version patch --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'"
     },
     "main": "./src/index.js",
     "files": [
@@ -55,6 +58,7 @@
     "devDependencies": {
         "ava": "^2.4.0",
         "coveralls": "^3.0.9",
+        "generate-changelog": "^1.8.0",
         "husky": "^3.1.0",
         "lint-staged": "^9.5.0",
         "nyc": "^14.1.1",
