@@ -53,17 +53,17 @@
         "package.json"
     ],
     "devDependencies": {
-        "ava": "^2.2.0",
-        "coveralls": "^3.0.4",
-        "husky": "^3.0.0",
-        "lint-staged": "^9.2.0",
+        "ava": "^2.4.0",
+        "coveralls": "^3.0.9",
+        "husky": "^3.1.0",
+        "lint-staged": "^9.5.0",
         "nyc": "^14.1.1",
         "rimraf": "^3.0.0",
-        "standard": "^14.0.0",
+        "standard": "^14.3.1",
         "tmp": "^0.1.0"
     },
     "dependencies": {
-        "dot-prop": "^5.1.0",
+        "dot-prop": "^5.2.0",
         "read-pkg": "^5.2.0",
         "semver": "^7.0.0",
         "write-pkg": "^4.0.0"
