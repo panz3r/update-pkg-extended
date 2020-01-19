@@ -1,11 +1,11 @@
-import test from 'ava'
-import { writeFileSync } from 'fs'
-import { join } from 'path'
-import readPkg from 'read-pkg'
-import { sync as rm } from 'rimraf'
-import tmp from 'tmp'
+const test = require('ava')
+const { writeFileSync } = require('fs')
+const { join } = require('path')
+const readPkg = require('read-pkg')
+const { sync: rm } = require('rimraf')
+const tmp = require('tmp')
 
-import Pkg from '../'
+const Pkg = require('../src')
 
 // Create tmp dir for each test
 test.beforeEach(t => {
