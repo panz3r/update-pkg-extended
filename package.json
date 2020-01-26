@@ -56,7 +56,7 @@
         "package.json"
     ],
     "devDependencies": {
-        "ava": "^3.0.0",
+        "ava": "^3.1.0",
         "coveralls": "^3.0.9",
         "generate-changelog": "^1.8.0",
         "husky": "^4.0.10",
