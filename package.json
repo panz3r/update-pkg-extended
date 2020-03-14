@@ -1,6 +1,6 @@
 {
     "name": "update-pkg-extended",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "versionName": "Babaco",
     "description": "Update package.json with ease",
     "license": "MIT",
