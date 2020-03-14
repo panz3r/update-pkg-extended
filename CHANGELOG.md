@@ -1,3 +1,17 @@
+#### 2.2.3 (2020-03-14)
+
+##### Chores
+
+* **package:**
+  *  update lockfile package-lock.json (ef791b7d)
+  *  update ava to version 3.1.0 (784b9a4b)
+  *  update lockfile package-lock.json (906a6556)
+  *  update ava to version 3.0.0 (896fad46)
+
+##### Tests
+
+* **package:**  Update test setup (7d4bcfbc)
+
 #### 2.2.1 (2019-12-15)
 
 ##### Chores
