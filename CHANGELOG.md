@@ -1,3 +1,21 @@
+#### 2.2.4 (2020-03-16)
+
+##### Chores
+
+*  Remove devDependencies replaced by GH Actions (a53fa096)
+*  Migrate to GH Actions - Unify actions into 'Build' workflow (227d52e6)
+*  Migrate to GH Actions - 'Lint' action (b9a42d01)
+*  Migrate to GH Actions - 'Coverage' action (7eabf8a6)
+*  Migrate to GH Actions - 'Tests' action (50b8df17)
+* **travis:**  Remove configuration (7729f0ca)
+
+##### Documentation Changes
+
+* **README:**
+  *  Update badges (f1bda9d2)
+  *  Add 'Github Issues' badge (108d08a4)
+  *  Remove 'greenkeeper' badge (c5b36222)
+
 #### 2.2.3 (2020-03-14)
 
 ##### Chores
