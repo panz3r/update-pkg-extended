@@ -5,6 +5,8 @@
 
 [![Build Status](https://travis-ci.org/panz3r/update-pkg-extended.svg?branch=master)](https://travis-ci.org/panz3r/update-pkg-extended)
 [![Coverage Status](https://coveralls.io/repos/github/panz3r/update-pkg-extended/badge.svg?branch=master)](https://coveralls.io/github/panz3r/update-pkg-extended?branch=master)
+[![Github Issues](https://img.shields.io/github/issues/panz3r/update-pkg-extended.svg)](https://github.com/panz3r/update-pkg-extended/issues)
+
 [![NPM downloads](https://img.shields.io/npm/dm/update-pkg-extended.svg)](https://npmjs.com/package/update-pkg-extended)
 
 > Update package.json with ease
