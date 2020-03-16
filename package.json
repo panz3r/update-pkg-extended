@@ -40,6 +40,7 @@
         "lint:fix": "standard --fix",
         "test": "ava",
         "coverage:html": "nyc ava && nyc report --reporter=html",
+        "coverage:lcov": "nyc ava && nyc report --reporter=lcov",
         "coveralls": "nyc ava && nyc report --reporter=text-lcov | coveralls",
         "prepublishOnly": "npm run lint && npm run test",
         "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version major --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'",
