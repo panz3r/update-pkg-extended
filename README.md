@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/github/license/panz3r/update-pkg-extended.svg)](LICENSE)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-[![Build Status](https://travis-ci.org/panz3r/update-pkg-extended.svg?branch=master)](https://travis-ci.org/panz3r/update-pkg-extended)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/panz3r/update-pkg-extended/Build)](https://github.com/panz3r/update-pkg-extended/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/panz3r/update-pkg-extended/badge.svg?branch=master)](https://coveralls.io/github/panz3r/update-pkg-extended?branch=master)
 [![Github Issues](https://img.shields.io/github/issues/panz3r/update-pkg-extended.svg)](https://github.com/panz3r/update-pkg-extended/issues)
 
