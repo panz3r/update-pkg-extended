@@ -168,6 +168,42 @@ test('has property', async t => {
   t.truthy(variableExists)
 })
 
+// APPEND/PREPEND
+
+test('append', async t => {
+  const { tmpDir } = t.context
+
+  // Setup
+  const pkg = new Pkg(tmpDir, { create: true })
+
+  // Actions
+  pkg.append('app', 'a')
+	pkg.append('app', 'b')
+
+  await pkg.save()
+
+  // Expectations
+  const savedPackage = await readPkg({ cwd: tmpDir })
+  t.deepEqual(savedPackage.app, ['a', 'b'])
+})
+
+test('prepend', async t => {
+  const { tmpDir } = t.context
+
+  // Setup
+  const pkg = new Pkg(tmpDir, { create: true })
+
+  // Actions
+  pkg.prepend('pre', 'a')
+  pkg.prepend('pre', 'b')
+
+  await pkg.save()
+
+  // Expectations
+  const savedPackage = await readPkg({ cwd: tmpDir })
+  t.deepEqual(savedPackage.pre, ['b', 'a'])
+})
+
 // VERSION
 
 test('version property', async t => {
