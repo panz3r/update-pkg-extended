@@ -45,6 +45,18 @@ module.exports = class Pkg {
     return dotProp.get(this._data, prop, defaultValue)
   }
 
+  update (prop, fn) {
+    return this.set(prop, fn(this.get(prop)))
+  }
+
+  append (prop, value) {
+    return this.update(prop, oldValue => (oldValue || []).concat(value))
+  }
+
+  prepend (prop, value) {
+    return this.update(prop, oldValue => [value].concat((oldValue || [])))
+  }
+
   del (prop) {
     dotProp.delete(this._data, prop)
     return this
