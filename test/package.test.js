@@ -178,7 +178,7 @@ test('append', async t => {
 
   // Actions
   pkg.append('app', 'a')
-	pkg.append('app', 'b')
+  pkg.append('app', 'b')
 
   await pkg.save()
 
