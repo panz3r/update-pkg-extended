@@ -1,3 +1,25 @@
+### 2.3.0 (2020-03-17)
+
+##### Chores
+
+* **deps:**  [security] bump minimist from 1.2.0 to 1.2.5 (97168316)
+
+##### Documentation Changes
+
+* **README:**  Add docs for 'append', 'prepend' and 'update' methods (8e8cfc34)
+
+##### New Features
+
+* **package:**  Add 'append', 'prepend' and 'update' methods (92f515b0)
+
+##### Code Style Changes
+
+* **tests:**  Fix lint errors (fdd8286a)
+
+##### Tests
+
+* **package:**  Add tests for 'append', 'prepend' and 'update' methods (11eb91cb)
+
 #### 2.2.4 (2020-03-16)
 
 ##### Chores
