@@ -14,11 +14,13 @@
 ## Install
 
 ```bash
-$ npm install --save update-pkg-extended
+npm install --save update-pkg-extended
 ```
+
 or
+
 ```bash
-$ yarn add update-pkg-extended
+yarn add update-pkg-extended
 ```
 
 ## Usage
@@ -81,6 +83,19 @@ Set value by the given `keyPath` like `author.name` and `value` like `panz3r`.
 
 Get value by the given keyPath.<br>
 If `keyPath` is not found and `defaultValue` is specified, `defaultValue` will be returned, otherwise will return `undefined`
+
+### .update(keyPath, updateFn)
+
+Update `keyPath` value using `updateFn` function.<br>
+`updateFn` is invoked with the current `keyPath` value.
+
+### .append(keyPath, value)
+
+Append `value` to the given `keyPath`.
+
+### .prepend(keyPath, value)
+
+Prepend `value` to the given `keyPath`.
 
 ### .version
 
