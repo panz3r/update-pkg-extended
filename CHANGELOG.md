@@ -1,3 +1,29 @@
+## 3.0.0 (2020-04-27)
+
+##### BREAKING CHANGES
+
+*  Drop Node 8 support (eb24b38e)
+
+##### Chores
+
+*  Add 'Node 14' to build-and-test matrix (a22236a3)
+
+* **deps:**
+  *  Bump deps version ranges (dbe3d01d)
+  *  bump semver from 7.3.0 to 7.3.2 (b23fdd69)
+  *  bump semver from 7.2.2 to 7.3.0 (6abf862d)
+  *  bump semver from 7.2.1 to 7.2.2 (8c014f5d)
+  *  bump semver from 7.1.3 to 7.2.1 (fae7216a)
+* **deps-dev:**
+  *  bump tmp from 0.1.0 to 0.2.0 (74140c66)
+  *  bump ava from 3.7.1 to 3.8.0 (a9502949)
+  *  bump ava from 3.7.0 to 3.7.1 (11079b21)
+  *  bump ava from 3.6.0 to 3.7.0 (59e7ec01)
+  *  bump nyc from 15.0.0 to 15.0.1 (e00d94ad)
+  *  bump ava from 3.5.2 to 3.6.0 (d78039f2)
+  *  bump ava from 3.5.1 to 3.5.2 (a5bab903)
+  *  bump ava from 3.5.0 to 3.5.1 (92768f25)
+
 ### 2.3.0 (2020-03-17)
 
 ##### Chores
