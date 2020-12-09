@@ -1,69 +1,68 @@
 {
-    "name": "update-pkg-extended",
-    "version": "3.0.0",
-    "versionName": "Babaco",
-    "description": "Update package.json with ease",
-    "license": "MIT",
-    "repository": "panz3r/update-pkg-extended",
-    "bugs": {
-        "url": "https://github.com/panz3r/update-pkg-extended/issues"
+  "name": "update-pkg-extended",
+  "version": "3.0.0",
+  "versionName": "Babaco",
+  "description": "Update package.json with ease",
+  "license": "MIT",
+  "repository": "panz3r/update-pkg-extended",
+  "bugs": {
+    "url": "https://github.com/panz3r/update-pkg-extended/issues"
+  },
+  "author": {
+    "name": "panz3r",
+    "email": "mattia.panzeri93@gmail.com",
+    "url": "https://github.com/panz3r"
+  },
+  "credits": {
+    "originalCodebase": {
+      "name": "update-pkg",
+      "author": {
+        "name": "EGOIST",
+        "email": "0x142857@gmail.com",
+        "url": "github.com/egoist"
+      },
+      "license": "MIT"
     },
-    "author": {
-        "name": "panz3r",
-        "email": "mattia.panzeri93@gmail.com",
-        "url": "https://github.com/panz3r"
-    },
-    "credits": {
-        "originalCodebase": {
-            "name": "update-pkg",
-            "author": {
-                "name": "EGOIST",
-                "email": "0x142857@gmail.com",
-                "url": "github.com/egoist"
-            },
-            "license": "MIT"
-        },
-        "versionFeatureInspiredBy": {
-            "name": "versiony",
-            "author": {
-                "name": "ciena-blueplanet",
-                "url": "github.com/ciena-blueplanet"
-            },
-            "license": "MIT"
-        }
-    },
-    "engines": {
-        "node": ">=10"
-    },
-    "scripts": {
-        "test": "ava",
-        "coverage:html": "nyc ava && nyc report --reporter=html",
-        "coverage:lcov": "nyc ava && nyc report --reporter=lcov",
-        "prepublishOnly": "npm run test",
-        "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version major --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'",
-        "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version minor --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'",
-        "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'chore(changelog): Update CHANGELOG.md' && npm version patch --no-git-tag-version && git add package.json package-lock.json && git commit -m 'chore(package): Bump version'"
-    },
-    "main": "./src/index.js",
-    "files": [
-        "/src/*.js"
-    ],
-    "keywords": [
-        "npm",
-        "package",
-        "package.json"
-    ],
-    "devDependencies": {
-        "ava": "^3.8.0",
-        "generate-changelog": "^1.8.0",
-        "nyc": "^15.0.1",
-        "rimraf": "^3.0.2",
-        "tmp": "^0.2.0"
-    },
-    "dependencies": {
-        "dot-prop": "^6.0.1",
-        "read-pkg": "^5.2.0",
-        "semver": "^7.3.2",
-        "write-pkg": "^4.0.0"
+    "versionFeatureInspiredBy": {
+      "name": "versiony",
+      "author": {
+        "name": "ciena-blueplanet",
+        "url": "github.com/ciena-blueplanet"
+      },
+      "license": "MIT"
     }
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "test": "ava",
+    "coverage:html": "nyc ava && nyc report --reporter=html",
+    "coverage:lcov": "nyc ava && nyc report --reporter=lcov",
+    "prepublishOnly": "npm run test",
+    "release": "release-it"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "/src/*.js"
+  ],
+  "keywords": [
+    "npm",
+    "package",
+    "package.json"
+  ],
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^1.1.4",
+    "ava": "^3.8.0",
+    "nyc": "^15.0.1",
+    "release-it": "14.1.0",
+    "rimraf": "^3.0.2",
+    "tmp": "^0.2.0"
+  },
+  "dependencies": {
+    "dot-prop": "^6.0.1",
+    "read-pkg": "^5.2.0",
+    "semver": "^7.3.2",
+    "write-pkg": "^4.0.0"
+  }
 }
