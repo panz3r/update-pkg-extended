@@ -1,3 +1,5 @@
+## [3.0.2](https://github.com/panz3r/update-pkg-extended/compare/v3.0.1...v3.0.2) (2021-04-30)
+
 ## [3.0.1](https://github.com/panz3r/update-pkg-extended/compare/v3.0.0...v3.0.1) (2020-12-09)
 
 
