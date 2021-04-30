@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [10, 12, 14]
+        node: [10, 12, 14, 16]
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -64,7 +64,7 @@ jobs:
       - name: Set Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: 13
+          node-version: 16
 
       - run: node --version
       - run: npm --version
