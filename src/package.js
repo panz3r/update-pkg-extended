@@ -1,18 +1,15 @@
-'use strict'
+import dotProp from 'dot-prop'
+import { resolve } from 'path'
+import { readPackageSync } from 'read-pkg'
+import writePkg from 'write-pkg'
 
-const dotProp = require('dot-prop')
-const path = require('path')
-const readPkg = require('read-pkg')
-const writePkg = require('write-pkg')
-
-const Version = require('./version')
+import Version from './version.js'
 
 function resolvePkg (dir) {
-  dir = dir || './'
-  return path.resolve(dir)
+  return resolve(dir || './')
 }
 
-module.exports = class Pkg {
+class Pkg {
   constructor (cwd, options) {
     this.options = Object.assign({ create: false }, options)
 
@@ -22,7 +19,7 @@ module.exports = class Pkg {
     // Load data from package.json
     this._data = {}
     try {
-      this._data = readPkg.sync({ cwd: this._cwd })
+      this._data = readPackageSync({ cwd: this._cwd })
     } catch (err) {
       if (err.code !== 'ENOENT' || (err.code === 'ENOENT' && !this.options.create)) {
         throw err
@@ -30,7 +27,7 @@ module.exports = class Pkg {
     }
 
     // Setup path
-    this.path = path.resolve(this._cwd, 'package.json')
+    this.path = resolve(this._cwd, 'package.json')
 
     // Setup version
     this.version = new Version(this._data)
@@ -75,3 +72,5 @@ module.exports = class Pkg {
     return this
   }
 }
+
+export default Pkg

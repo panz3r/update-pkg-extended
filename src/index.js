@@ -1,1 +1,3 @@
-module.exports = require('./package')
+import Pkg from './package.js'
+
+export default Pkg

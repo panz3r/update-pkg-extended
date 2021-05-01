@@ -1,11 +1,11 @@
-const test = require('ava')
-const { writeFileSync } = require('fs')
-const { join } = require('path')
-const readPkg = require('read-pkg')
-const { sync: rm } = require('rimraf')
-const tmp = require('tmp')
+import test from 'ava'
+import { writeFileSync } from 'fs'
+import { join } from 'path'
+import { readPackageAsync, readPackageSync } from 'read-pkg'
+import rimraf from 'rimraf'
+import tmp from 'tmp'
 
-const Pkg = require('../src')
+import Pkg from '../src/index.js'
 
 // Create tmp dir for each test
 test.beforeEach(t => {
@@ -14,7 +14,7 @@ test.beforeEach(t => {
 
 // Cleanup tmp dir
 test.afterEach.always(t => {
-  rm(t.context.tmpDir)
+  rimraf.sync(t.context.tmpDir)
 })
 
 // CONSTRUCTOR
@@ -40,7 +40,7 @@ test('create package', async t => {
   await pkg.save()
 
   // Expectations
-  const tstPkg = readPkg.sync({ cwd: tmpDir })
+  const tstPkg = readPackageSync({ cwd: tmpDir })
   t.is(tstPkg.foo, 'bar')
 })
 
@@ -104,7 +104,7 @@ test('set property', async t => {
   await pkg.save()
 
   // Expectations
-  const tstPkg = await readPkg({ cwd: tmpDir })
+  const tstPkg = await readPackageAsync({ cwd: tmpDir })
   t.is(tstPkg.foo, 'bar')
 })
 
@@ -119,7 +119,7 @@ test('set deep property', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPkg = await readPkg({ cwd: tmpDir })
+  const savedPkg = await readPackageAsync({ cwd: tmpDir })
   t.is(savedPkg.bar.baz, 'foo')
 })
 
@@ -132,7 +132,7 @@ test('del property', async t => {
   const pkg = new Pkg(tmpDir, { create: true })
   pkg.set('baz', 'delete me!')
   await pkg.save()
-  const tstPkg = await readPkg({ cwd: tmpDir })
+  const tstPkg = await readPackageAsync({ cwd: tmpDir })
   t.is(tstPkg.baz, 'delete me!')
 
   // Actions
@@ -140,7 +140,7 @@ test('del property', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPkg({ cwd: tmpDir })
+  const savedPackage = await readPackageAsync({ cwd: tmpDir })
   t.is(savedPackage.baz, undefined)
 })
 
@@ -183,7 +183,7 @@ test('append', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPkg({ cwd: tmpDir })
+  const savedPackage = await readPackageAsync({ cwd: tmpDir })
   t.deepEqual(savedPackage.app, ['a', 'b'])
 })
 
@@ -200,7 +200,7 @@ test('prepend', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPkg({ cwd: tmpDir })
+  const savedPackage = await readPackageAsync({ cwd: tmpDir })
   t.deepEqual(savedPackage.pre, ['b', 'a'])
 })
 
@@ -233,7 +233,7 @@ test('saveSync', t => {
   pkg.saveSync()
 
   // Expectations
-  const savedPkg = readPkg.sync({ cwd: tmpDir })
+  const savedPkg = readPackageSync({ cwd: tmpDir })
   t.is(savedPkg.syncSave, 'tested')
 })
 

@@ -1,9 +1,7 @@
-'use strict'
+import dotProp from 'dot-prop'
+import svParse from 'semver/functions/parse.js'
 
-const dotProp = require('dot-prop')
-const svParse = require('semver/functions/parse')
-
-module.exports = class Version {
+class Version {
   constructor (sourceData) {
     this.data = sourceData
     this._v = svParse(dotProp.get(this.data, 'version', '0.0.0'))
@@ -77,3 +75,5 @@ module.exports = class Version {
     return this._set()
   }
 }
+
+export default Version

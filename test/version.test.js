@@ -1,6 +1,6 @@
-const test = require('ava')
+import test from 'ava'
 
-const Version = require('../src/version')
+import Version from '../src/version.js'
 
 const sampleDataNoVer = { name: 'test package' }
 const sampleData = { name: 'test package', version: '0.0.1' }
