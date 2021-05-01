@@ -39,8 +39,8 @@
   },
   "scripts": {
     "test": "ava",
-    "coverage:html": "nyc ava && nyc report --reporter=html",
-    "coverage:lcov": "nyc ava && nyc report --reporter=lcov",
+    "coverage": "c8 --check-coverage --lines 100 npm run test",
+    "coverage:lcov": "c8 --check-coverage --lines 100 --reporter lcov npm run test",
     "prepublishOnly": "npm run test",
     "release": "release-it"
   },
@@ -55,7 +55,7 @@
   "devDependencies": {
     "@release-it/conventional-changelog": "^2.0.0",
     "ava": "^3.8.0",
-    "nyc": "^15.0.1",
+    "c8": "^7.7.1",
     "release-it": "14.6.1",
     "rimraf": "^3.0.2",
     "tmp": "^0.2.0"
