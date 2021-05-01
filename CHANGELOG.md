@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/panz3r/update-pkg-extended/compare/v3.0.2...v4.0.0) (2021-05-01)
+
+
+### Features
+
+* Migrate to an ESM module ([6a383bf](https://github.com/panz3r/update-pkg-extended/commit/6a383bf2ca66c892c3fda5a0adaafc4408607058)), closes [#75](https://github.com/panz3r/update-pkg-extended/issues/75)
+
+
+### BREAKING CHANGES
+
+* Drop Node 10 support
+
 ## [3.0.2](https://github.com/panz3r/update-pkg-extended/compare/v3.0.1...v3.0.2) (2021-04-30)
 
 ## [3.0.1](https://github.com/panz3r/update-pkg-extended/compare/v3.0.0...v3.0.1) (2020-12-09)
