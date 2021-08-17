@@ -1,9 +1,9 @@
 import test from 'ava'
-import { writeFileSync } from 'fs'
 import { join } from 'path'
-import { readPackageAsync, readPackageSync } from 'read-pkg'
+import { readPackage, readPackageSync } from 'read-pkg'
 import rimraf from 'rimraf'
 import tmp from 'tmp'
+import { writePackageSync } from 'write-pkg'
 
 import Pkg from '../src/index.js'
 
@@ -104,7 +104,7 @@ test('set property', async t => {
   await pkg.save()
 
   // Expectations
-  const tstPkg = await readPackageAsync({ cwd: tmpDir })
+  const tstPkg = await readPackage({ cwd: tmpDir })
   t.is(tstPkg.foo, 'bar')
 })
 
@@ -119,7 +119,7 @@ test('set deep property', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPkg = await readPackageAsync({ cwd: tmpDir })
+  const savedPkg = await readPackage({ cwd: tmpDir })
   t.is(savedPkg.bar.baz, 'foo')
 })
 
@@ -132,7 +132,7 @@ test('del property', async t => {
   const pkg = new Pkg(tmpDir, { create: true })
   pkg.set('baz', 'delete me!')
   await pkg.save()
-  const tstPkg = await readPackageAsync({ cwd: tmpDir })
+  const tstPkg = await readPackage({ cwd: tmpDir })
   t.is(tstPkg.baz, 'delete me!')
 
   // Actions
@@ -140,7 +140,7 @@ test('del property', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPackageAsync({ cwd: tmpDir })
+  const savedPackage = await readPackage({ cwd: tmpDir })
   t.is(savedPackage.baz, undefined)
 })
 
@@ -183,7 +183,7 @@ test('append', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPackageAsync({ cwd: tmpDir })
+  const savedPackage = await readPackage({ cwd: tmpDir })
   t.deepEqual(savedPackage.app, ['a', 'b'])
 })
 
@@ -200,7 +200,7 @@ test('prepend', async t => {
   await pkg.save()
 
   // Expectations
-  const savedPackage = await readPackageAsync({ cwd: tmpDir })
+  const savedPackage = await readPackage({ cwd: tmpDir })
   t.deepEqual(savedPackage.pre, ['b', 'a'])
 })
 
@@ -240,6 +240,5 @@ test('saveSync', t => {
 // Utils
 
 function _createMockPackage (path) {
-  const testPackage = join(path, './package.json')
-  writeFileSync(testPackage, JSON.stringify({ name: 'test-package', version: '0.0.1' }), 'utf8')
+  writePackageSync(path, { name: 'test-package', version: '0.0.1' })
 }
