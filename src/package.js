@@ -1,7 +1,7 @@
 import dotProp from 'dot-prop'
 import { resolve } from 'path'
 import { readPackageSync } from 'read-pkg'
-import writePkg from 'write-pkg'
+import { writePackage, writePackageSync } from 'write-pkg'
 
 import Version from './version.js'
 
@@ -64,11 +64,11 @@ class Pkg {
   }
 
   save () {
-    return writePkg(this._cwd, this._data)
+    return writePackage(this._cwd, this._data)
   }
 
   saveSync () {
-    writePkg.sync(this._cwd, this._data)
+    writePackageSync(this._cwd, this._data)
     return this
   }
 }
