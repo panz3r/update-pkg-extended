@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/panz3r/update-pkg-extended/compare/v4.0.0...v4.0.1) (2021-08-17)
+
+
+### Bug Fixes
+
+* migrate write-pkg usages ([b7ca57a](https://github.com/panz3r/update-pkg-extended/commit/b7ca57ad58900b0b10e9486add72a80ab4a6641c))
+
 # [4.0.0](https://github.com/panz3r/update-pkg-extended/compare/v3.0.2...v4.0.0) (2021-05-01)
 
 
