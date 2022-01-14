@@ -53,7 +53,7 @@
     "package.json"
   ],
   "devDependencies": {
-    "@release-it/conventional-changelog": "^3.0.0",
+    "@release-it/conventional-changelog": "^4.1.0",
     "ava": "^4.0.0",
     "c8": "^7.7.1",
     "release-it": "14.12.1",
