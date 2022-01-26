@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/panz3r/update-pkg-extended/compare/v4.0.1...v4.0.2) (2022-01-26)
+
+
+### Bug Fixes
+
+* migrate dot-prop usages ([26aede0](https://github.com/panz3r/update-pkg-extended/commit/26aede0303fcba989a8b2daa4da232b90cc1ff95))
+
 ## [4.0.1](https://github.com/panz3r/update-pkg-extended/compare/v4.0.0...v4.0.1) (2021-08-17)
 
 
