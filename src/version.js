@@ -1,10 +1,10 @@
-import dotProp from 'dot-prop'
+import { getProperty, setProperty } from 'dot-prop'
 import svParse from 'semver/functions/parse.js'
 
 class Version {
   constructor (sourceData) {
     this.data = sourceData
-    this._v = svParse(dotProp.get(this.data, 'version', '0.0.0'))
+    this._v = svParse(getProperty(this.data, 'version', '0.0.0'))
   }
 
   get (segment) {
@@ -27,7 +27,7 @@ class Version {
   }
 
   _set () {
-    dotProp.set(this.data, 'version', this.get())
+    setProperty(this.data, 'version', this.get())
     return this
   }
 

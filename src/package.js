@@ -1,4 +1,4 @@
-import dotProp from 'dot-prop'
+import { deleteProperty, getProperty, hasProperty, setProperty } from 'dot-prop'
 import { resolve } from 'path'
 import { readPackageSync } from 'read-pkg'
 import { writePackage, writePackageSync } from 'write-pkg'
@@ -34,12 +34,12 @@ class Pkg {
   }
 
   set (prop, value) {
-    dotProp.set(this._data, prop, value)
+    setProperty(this._data, prop, value)
     return this
   }
 
   get (prop, defaultValue) {
-    return dotProp.get(this._data, prop, defaultValue)
+    return getProperty(this._data, prop, defaultValue)
   }
 
   update (prop, fn) {
@@ -55,12 +55,12 @@ class Pkg {
   }
 
   del (prop) {
-    dotProp.delete(this._data, prop)
+    deleteProperty(this._data, prop)
     return this
   }
 
   has (prop) {
-    return dotProp.has(this._data, prop)
+    return hasProperty(this._data, prop)
   }
 
   save () {
