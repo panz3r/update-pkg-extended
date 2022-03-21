@@ -1,6 +1,6 @@
 {
   "name": "update-pkg-extended",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "versionName": "Durian",
   "description": "Update package.json with ease",
   "license": "MIT",
