@@ -6,12 +6,11 @@
   "license": "MIT",
   "repository": "panz3r/update-pkg-extended",
   "bugs": {
-    "url": "https://github.com/panz3r/update-pkg-extended/issues"
+    "url": "https://codeberg.org/panz3r/update-pkg-extended/issues"
   },
   "author": {
     "name": "panz3r",
-    "email": "mattia.panzeri93@gmail.com",
-    "url": "https://github.com/panz3r"
+    "url": "https://codeberg.org/panz3r"
   },
   "credits": {
     "originalCodebase": {
