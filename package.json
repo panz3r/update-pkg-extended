@@ -1,16 +1,20 @@
 {
   "name": "update-pkg-extended",
   "version": "4.0.3",
-  "versionName": "Durian",
-  "description": "Update package.json with ease",
   "license": "MIT",
-  "repository": "panz3r/update-pkg-extended",
-  "bugs": {
-    "url": "https://codeberg.org/panz3r/update-pkg-extended/issues"
-  },
   "author": {
     "name": "panz3r",
     "url": "https://codeberg.org/panz3r"
+  },
+  "description": "Update package.json with ease",
+  "keywords": [
+    "npm",
+    "package",
+    "package.json"
+  ],
+  "repository": "panz3r/update-pkg-extended",
+  "bugs": {
+    "url": "https://codeberg.org/panz3r/update-pkg-extended/issues"
   },
   "credits": {
     "originalCodebase": {
@@ -33,6 +37,9 @@
   },
   "type": "module",
   "exports": "./src/index.js",
+  "files": [
+    "/src/*.js"
+  ],
   "engines": {
     "node": ">=12"
   },
@@ -43,14 +50,6 @@
     "prepublishOnly": "npm run test",
     "release": "release-it"
   },
-  "files": [
-    "/src/*.js"
-  ],
-  "keywords": [
-    "npm",
-    "package",
-    "package.json"
-  ],
   "devDependencies": {
     "@release-it/conventional-changelog": "^5.0.0",
     "ava": "^4.3.1",
