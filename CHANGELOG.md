@@ -1,5 +1,7 @@
 
 
+## [4.0.4](https://github.com/panz3r/update-pkg-extended/compare/v4.0.3...v4.0.4) (2022-08-10)
+
 ## [4.0.3](https://codeberg.org/panz3r/update-pkg-extended/compare/v4.0.2...v4.0.3) (2022-03-21)
 
 ## [4.0.2](https://codeberg.org/panz3r/update-pkg-extended/compare/v4.0.1...v4.0.2) (2022-01-26)
