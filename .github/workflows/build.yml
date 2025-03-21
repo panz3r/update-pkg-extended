@@ -1,9 +1,8 @@
 name: Build
 
-on: [push, pull_request]
-
-env:
-  CI: true
+on:
+  push:
+    branches-ignore: [main]
 
 jobs:
   lint:
