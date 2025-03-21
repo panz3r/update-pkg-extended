@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/panz3r/update-pkg-extended/compare/v4.0.4...v5.0.0) (2025-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade dependencies and remove support for older NodeJS versions ([#7](https://github.com/panz3r/update-pkg-extended/issues/7))
+
+### Features
+
+* upgrade dependencies and remove support for older NodeJS versions ([#7](https://github.com/panz3r/update-pkg-extended/issues/7)) ([b4d3575](https://github.com/panz3r/update-pkg-extended/commit/b4d357585931dc71c4b006289a7203127067090c))
+
 ## [4.0.4](https://github.com/panz3r/update-pkg-extended/compare/v4.0.3...v4.0.4) (2022-08-10)
 
 ## [4.0.3](https://github.com/panz3r/update-pkg-extended/compare/v4.0.2...v4.0.3) (2022-03-21)
