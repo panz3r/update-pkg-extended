@@ -1,4 +1,4 @@
-
+# Changelog
 
 ## [4.0.4](https://github.com/panz3r/update-pkg-extended/compare/v4.0.3...v4.0.4) (2022-08-10)
 
