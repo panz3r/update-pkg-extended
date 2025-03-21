@@ -2,19 +2,16 @@
   "name": "update-pkg-extended",
   "version": "4.0.4",
   "license": "MIT",
-  "author": {
-    "name": "panz3r",
-    "url": "https://codeberg.org/panz3r"
-  },
+  "author": "Mattia Panzeri (https://github.com/panz3r)",
   "description": "Update package.json with ease",
   "keywords": [
     "npm",
     "package",
     "package.json"
   ],
-  "repository": "panz3r/update-pkg-extended",
+  "repository": "https://github.com/panz3r/update-pkg-extended",
   "bugs": {
-    "url": "https://codeberg.org/panz3r/update-pkg-extended/issues"
+    "url": "https://github.com/panz3r/update-pkg-extended/issues"
   },
   "credits": {
     "originalCodebase": {
