@@ -1,7 +1,7 @@
 import test from 'ava'
 import { join } from 'path'
 import { readPackage, readPackageSync } from 'read-pkg'
-import rimraf from 'rimraf'
+import { rimrafSync } from 'rimraf'
 import tmp from 'tmp'
 import { writePackageSync } from 'write-pkg'
 
@@ -14,7 +14,7 @@ test.beforeEach(t => {
 
 // Cleanup tmp dir
 test.afterEach.always(t => {
-  rimraf.sync(t.context.tmpDir)
+  rimrafSync(t.context.tmpDir)
 })
 
 // CONSTRUCTOR
