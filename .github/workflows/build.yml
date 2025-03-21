@@ -11,41 +11,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set Node.js version
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+
+      - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
+          cache: pnpm
           node-version: lts/*
 
       - name: Run Standard linter
-        run: npx standard --verbose "src/**/*.js" "test/**/*.js"
+        run: pnpx standard --verbose "src/**/*.js" "test/**/*.js"
 
   test:
-    name: Test with Node ${{ matrix.node }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Test with Node ${{ matrix.node_version }} on ${{ matrix.os }}
 
     strategy:
-      fail-fast: false
       matrix:
-        node: [12, 14, 16, 18, 20, 22]
         os: [ubuntu-latest, windows-latest]
+        node_version: [lts/-1, lts/*, latest]
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Clone repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set Node.js version
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+
+      - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          cache: pnpm
+          node-version: ${{ matrix.node_version }}
 
-      - run: node --version
-      - run: npm --version
-
-      - name: Install npm dependencies
-        run: npm ci
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
 
       - name: Run tests
-        run: npm test
+        run: pnpm test
