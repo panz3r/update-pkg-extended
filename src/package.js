@@ -1,7 +1,7 @@
 import { deleteProperty, getProperty, hasProperty, setProperty } from 'dot-prop'
 import { resolve } from 'path'
 import { readPackageSync } from 'read-pkg'
-import { writePackage, writePackageSync } from 'write-pkg'
+import { writePackage, writePackageSync } from 'write-package'
 
 import Version from './version.js'
 
