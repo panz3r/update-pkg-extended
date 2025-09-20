@@ -34,8 +34,10 @@
   },
   "type": "module",
   "exports": "./src/index.js",
+  "types": "./index.d.ts",
   "files": [
-    "/src/*.js"
+    "/src/*.js",
+    "/index.d.ts"
   ],
   "engines": {
     "node": ">=18"
