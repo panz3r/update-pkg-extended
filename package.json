@@ -1,6 +1,6 @@
 {
   "name": "update-pkg-extended",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "license": "MIT",
   "author": "Mattia Panzeri (https://github.com/panz3r)",
   "description": "Update package.json with ease",
