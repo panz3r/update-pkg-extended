@@ -210,6 +210,20 @@ Return: `this`
 
 Save data to `package.json` synchronously.
 
+## TypeScript Support
+
+This project features comprehensive [TypeScript](https://www.typescriptlang.org/) support with full type definitions.
+
+### Type Definitions
+
+The library exports the following main types:
+
+- `IPkg` - Interface for the main Pkg class
+- `IVersion` - Interface for the Version class  
+- `PkgOptions` - Options for creating a Pkg instance
+- `PackageData` - Type definition for package.json structure
+- `VersionSegment` - Type for version segments (`'major' | 'minor' | 'patch' | 'prerelease'`)
+
 ## Credits
 
 - Original codebase credits goes to [EGOIST](https://github.com/egoist)'s [update-pkg](https://github.com/egoist/update-pkg)
