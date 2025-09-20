@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0](https://github.com/panz3r/update-pkg-extended/compare/v5.0.0...v5.1.0) (2025-09-20)
+
+
+### Features
+
+* add TypeScript support and update `pnpm` environment ([#22](https://github.com/panz3r/update-pkg-extended/issues/22)) ([775e0e3](https://github.com/panz3r/update-pkg-extended/commit/775e0e3dab13018e2fee91ae67545654f260bf20))
+
 ## [5.0.0](https://github.com/panz3r/update-pkg-extended/compare/v4.0.4...v5.0.0) (2025-03-21)
 
 
