@@ -1,5 +1,5 @@
-import { getProperty, setProperty } from 'dot-prop'
-import svParse from 'semver/functions/parse.js'
+import { getProperty, setProperty } from './utils/dot-prop.js'
+import svParse from './utils/semver.js'
 
 class Version {
   constructor (sourceData) {

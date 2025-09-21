@@ -1,8 +1,6 @@
-import { deleteProperty, getProperty, hasProperty, setProperty } from 'dot-prop'
 import { resolve } from 'path'
-import { readPackageSync } from 'read-pkg'
-import { writePackage, writePackageSync } from 'write-package'
-
+import { deleteProperty, getProperty, hasProperty, setProperty } from './utils/dot-prop.js'
+import { readPackageSync, writePackage, writePackageSync } from './utils/package-io.js'
 import Version from './version.js'
 
 function resolvePkg (dir) {
