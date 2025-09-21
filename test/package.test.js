@@ -1,9 +1,8 @@
 import test from 'ava'
 import { join } from 'path'
-import { readPackage, readPackageSync } from 'read-pkg'
+import { readPackage, readPackageSync, writePackageSync } from '../src/utils/package-io.js'
 import { rimrafSync } from 'rimraf'
 import tmp from 'tmp'
-import { writePackageSync } from 'write-package'
 
 import Pkg from '../src/index.js'
 

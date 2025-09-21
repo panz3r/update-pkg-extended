@@ -10,7 +10,7 @@ Bootstrap and validate the repository:
 - Ensure Node.js >=18 is installed (tested with v20.19.5)
 - Install pnpm globally: `npm install -g pnpm` (requires v10.17.0)
 - Install dependencies: `pnpm i --frozen-lockfile` -- takes 7 seconds. NEVER CANCEL.
-- Run tests: `pnpm test` -- takes 1 second for 48 tests with 100% coverage. NEVER CANCEL.
+- Run tests: `pnpm test` -- takes 1 second for comprehensive test suite with 100% coverage. NEVER CANCEL.
 - Run linting: `pnpx standard --verbose "src/**/*.js" "test/**/*.js"` -- takes 16 seconds. NEVER CANCEL.
 - Run coverage check: `pnpm run coverage` -- takes 2 seconds, enforces 100% coverage. NEVER CANCEL.
 
@@ -47,7 +47,7 @@ console.log('Final package version:', pkg.version.get());
 
 This is a pure ES module library with no build step required.
 - **Dependencies**: pnpm v10.17.0 package manager with frozen lockfile
-- **Tests**: AVA test framework with 48 tests achieving 100% code coverage
+- **Tests**: AVA test framework with comprehensive test suite achieving 100% code coverage
 - **Linting**: StandardJS linting enforced in CI
 - **Coverage**: c8 tool enforcing 100% line coverage
 - **CI/CD**: GitHub Actions with matrix testing across Node.js versions and OS platforms
@@ -115,7 +115,7 @@ pkg.del('unwanted.property') // Delete property
 ```
 
 ### Dependencies
-- **Runtime**: dot-prop (property manipulation), read-pkg/write-package (file I/O), semver (version parsing)
+- **Runtime**: All functionality is now implemented internally (internal utilities for property manipulation, file I/O, and version parsing)
 - **Development**: ava (testing), c8 (coverage), rimraf (cleanup), tmp (temp directories)
 - **Package Manager**: pnpm with frozen lockfile for reproducible builds
 
@@ -140,7 +140,7 @@ This is a library, not an application. Test functionality by:
 ## Validation Scenarios
 
 After making any changes, always:
-1. Run full test suite and ensure all 48 tests pass
+1. Run full test suite and ensure all tests pass
 2. Verify 100% code coverage is maintained  
 3. Run linting to ensure code style compliance
 4. Create a manual test in `/tmp` directory that exercises your changes
