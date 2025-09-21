@@ -37,7 +37,7 @@ export function getProperty(object, path, defaultValue) {
   let current = object
   
   for (const key of keys) {
-    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, key)) {
       return defaultValue
     }
     current = current[key]
@@ -48,7 +48,8 @@ export function getProperty(object, path, defaultValue) {
 
 /**
  * Set a property value in an object using dot notation
- * @param {object} path - The property path
+ * @param {object} object - The target object
+ * @param {string} path - The property path
  * @param {*} value - The value to set
  * @returns {void}
  */
@@ -71,7 +72,7 @@ export function setProperty(object, path, value) {
       return
     }
     
-    if (!(key in current) || current[key] == null || typeof current[key] !== 'object') {
+    if (!Object.prototype.hasOwnProperty.call(current, key) || current[key] == null || typeof current[key] !== 'object') {
       current[key] = {}
     }
     
@@ -99,7 +100,7 @@ export function hasProperty(object, path) {
   let current = object
   
   for (const key of keys) {
-    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, key)) {
       return false
     }
     current = current[key]
@@ -123,7 +124,7 @@ export function deleteProperty(object, path) {
   
   if (keys.length === 1) {
     const key = keys[0]
-    if (isSafeKey(key) && key in object) {
+    if (isSafeKey(key) && Object.prototype.hasOwnProperty.call(object, key)) {
       delete object[key]
       return true
     }
@@ -134,7 +135,7 @@ export function deleteProperty(object, path) {
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     
-    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, key)) {
       return false
     }
     
@@ -142,7 +143,7 @@ export function deleteProperty(object, path) {
   }
   
   const lastKey = keys[keys.length - 1]
-  if (isSafeKey(lastKey) && lastKey in current) {
+  if (isSafeKey(lastKey) && Object.prototype.hasOwnProperty.call(current, lastKey)) {
     delete current[lastKey]
     return true
   }
