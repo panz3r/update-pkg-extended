@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/panz3r/update-pkg-extended/compare/v5.1.0...v6.0.0) (2025-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove all external dependencies and internalize required methods ([#26](https://github.com/panz3r/update-pkg-extended/issues/26))
+
+### Features
+
+* remove all external dependencies and internalize required methods ([#26](https://github.com/panz3r/update-pkg-extended/issues/26)) ([814a8ff](https://github.com/panz3r/update-pkg-extended/commit/814a8ffa3c5f857c4cbe25dff6e7f0fbb9c794d1))
+
 ## [5.1.0](https://github.com/panz3r/update-pkg-extended/compare/v5.0.0...v5.1.0) (2025-09-20)
 
 
