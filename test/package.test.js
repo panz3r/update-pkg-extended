@@ -1,10 +1,10 @@
 import test from 'ava'
 import { join } from 'path'
-import { readPackage, readPackageSync, writePackageSync } from '../src/utils/package-io.js'
+import { readPackage, readPackageSync, writePackageSync } from '../dist/utils/package-io.js'
 import { rimrafSync } from 'rimraf'
 import tmp from 'tmp'
 
-import Pkg from '../src/index.js'
+import Pkg from '../dist/index.js'
 
 // Create tmp dir for each test
 test.beforeEach(t => {

@@ -5,36 +5,36 @@
 
 /**
  * Check if a key is safe to use (prevents prototype pollution)
- * @param {string} key - The property key to check
- * @returns {boolean} True if the key is safe
+ * @param key - The property key to check
+ * @returns True if the key is safe
  */
-function isSafeKey(key) {
+function isSafeKey(key: string): boolean {
   return key !== '__proto__' && key !== 'constructor' && key !== 'prototype'
 }
 
 /**
  * Split a path string into an array of keys
- * @param {string} path - The property path
- * @returns {string[]} Array of keys
+ * @param path - The property path
+ * @returns Array of keys
  */
-function splitPath(path) {
+function splitPath(path: string): string[] {
   return path.split('.')
 }
 
 /**
  * Get a property value from an object using dot notation
- * @param {object} object - The target object
- * @param {string} path - The property path
- * @param {*} defaultValue - Default value if property doesn't exist
- * @returns {*} The property value
+ * @param object - The target object
+ * @param path - The property path
+ * @param defaultValue - Default value if property doesn't exist
+ * @returns The property value
  */
-export function getProperty(object, path, defaultValue) {
+export function getProperty(object: unknown, path: string, defaultValue?: unknown): unknown {
   if (!object || typeof object !== 'object') {
     return defaultValue
   }
   
   const keys = splitPath(path)
-  let current = object
+  let current: any = object
   
   for (const key of keys) {
     if (!isSafeKey(key) || current == null || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, key)) {
@@ -48,12 +48,11 @@ export function getProperty(object, path, defaultValue) {
 
 /**
  * Set a property value in an object using dot notation
- * @param {object} object - The target object
- * @param {string} path - The property path
- * @param {*} value - The value to set
- * @returns {void}
+ * @param object - The target object
+ * @param path - The property path
+ * @param value - The value to set
  */
-export function setProperty(object, path, value) {
+export function setProperty(object: Record<string, any>, path: string, value: unknown): void {
   const keys = splitPath(path)
   
   if (keys.length === 1) {
@@ -64,7 +63,7 @@ export function setProperty(object, path, value) {
     return
   }
   
-  let current = object
+  let current: any = object
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     
@@ -87,17 +86,17 @@ export function setProperty(object, path, value) {
 
 /**
  * Check if a property exists in an object using dot notation
- * @param {object} object - The target object
- * @param {string} path - The property path
- * @returns {boolean} True if property exists
+ * @param object - The target object
+ * @param path - The property path
+ * @returns True if property exists
  */
-export function hasProperty(object, path) {
+export function hasProperty(object: unknown, path: string): boolean {
   if (!object || typeof object !== 'object') {
     return false
   }
   
   const keys = splitPath(path)
-  let current = object
+  let current: any = object
   
   for (const key of keys) {
     if (!isSafeKey(key) || current == null || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, key)) {
@@ -111,11 +110,11 @@ export function hasProperty(object, path) {
 
 /**
  * Delete a property from an object using dot notation
- * @param {object} object - The target object
- * @param {string} path - The property path
- * @returns {boolean} True if property was deleted
+ * @param object - The target object
+ * @param path - The property path
+ * @returns True if property was deleted
  */
-export function deleteProperty(object, path) {
+export function deleteProperty(object: unknown, path: string): boolean {
   if (!object || typeof object !== 'object') {
     return false
   }
@@ -124,14 +123,14 @@ export function deleteProperty(object, path) {
   
   if (keys.length === 1) {
     const key = keys[0]
-    if (isSafeKey(key) && Object.prototype.hasOwnProperty.call(object, key)) {
-      delete object[key]
+    if (isSafeKey(key) && Object.prototype.hasOwnProperty.call(object as any, key)) {
+      delete (object as any)[key]
       return true
     }
     return false
   }
   
-  let current = object
+  let current: any = object
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     

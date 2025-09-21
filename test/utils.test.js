@@ -1,7 +1,7 @@
 import test from 'ava'
-import { getProperty, setProperty, hasProperty, deleteProperty } from '../src/utils/dot-prop.js'
-import { readPackage } from '../src/utils/package-io.js'
-import parse from '../src/utils/semver.js'
+import { getProperty, setProperty, hasProperty, deleteProperty } from '../dist/utils/dot-prop.js'
+import { readPackage } from '../dist/utils/package-io.js'
+import parse from '../dist/utils/semver.js'
 
 // Test edge cases for 100% coverage
 

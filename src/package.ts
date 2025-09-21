@@ -3,12 +3,40 @@ import { deleteProperty, getProperty, hasProperty, setProperty } from './utils/d
 import { readPackageSync, writePackage, writePackageSync } from './utils/package-io.js'
 import Version from './version.js'
 
-function resolvePkg (dir) {
+/**
+ * Options for creating a new Pkg instance
+ */
+interface PkgOptions {
+  create?: boolean
+}
+
+/**
+ * Package data interface
+ */
+interface PackageData {
+  [key: string]: any
+}
+
+/**
+ * Resolve package directory
+ * @param dir - Directory path
+ * @returns Resolved directory path
+ */
+function resolvePkg(dir?: string): string {
   return resolve(dir || './')
 }
 
+/**
+ * Package manipulation class
+ */
 class Pkg {
-  constructor (cwd, options) {
+  options: PkgOptions
+  path: string
+  version: Version
+  private _cwd: string
+  private _data: PackageData
+
+  constructor(cwd?: string, options?: PkgOptions) {
     this.options = Object.assign({ create: false }, options)
 
     // Store CWD
@@ -18,7 +46,7 @@ class Pkg {
     this._data = {}
     try {
       this._data = readPackageSync({ cwd: this._cwd })
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 'ENOENT' || (err.code === 'ENOENT' && !this.options.create)) {
         throw err
       }
@@ -31,41 +59,41 @@ class Pkg {
     this.version = new Version(this._data)
   }
 
-  set (prop, value) {
+  set(prop: string, value: unknown): this {
     setProperty(this._data, prop, value)
     return this
   }
 
-  get (prop, defaultValue) {
+  get(prop: string, defaultValue?: unknown): unknown {
     return getProperty(this._data, prop, defaultValue)
   }
 
-  update (prop, fn) {
+  update(prop: string, fn: (currentValue: unknown) => unknown): this {
     return this.set(prop, fn(this.get(prop)))
   }
 
-  append (prop, value) {
-    return this.update(prop, oldValue => (oldValue || []).concat(value))
+  append(prop: string, value: unknown): this {
+    return this.update(prop, oldValue => (oldValue as any[] || []).concat(value))
   }
 
-  prepend (prop, value) {
-    return this.update(prop, oldValue => [value].concat((oldValue || [])))
+  prepend(prop: string, value: unknown): this {
+    return this.update(prop, oldValue => [value].concat((oldValue as any[] || [])))
   }
 
-  del (prop) {
+  del(prop: string): this {
     deleteProperty(this._data, prop)
     return this
   }
 
-  has (prop) {
+  has(prop: string): boolean {
     return hasProperty(this._data, prop)
   }
 
-  save () {
+  save(): Promise<void> {
     return writePackage(this._cwd, this._data)
   }
 
-  saveSync () {
+  saveSync(): this {
     writePackageSync(this._cwd, this._data)
     return this
   }
