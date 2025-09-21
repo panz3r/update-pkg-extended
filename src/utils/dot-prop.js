@@ -4,6 +4,50 @@
  */
 
 /**
+ * Check if a key is safe to use (prevents prototype pollution)
+ * @param {string} key - The property key to check
+ * @returns {boolean} True if the key is safe
+ */
+function isSafeKey(key) {
+  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype'
+}
+
+/**
+ * Safely navigate to a property in an object
+ * @param {object} object - The target object
+ * @param {string[]} keys - Array of property keys
+ * @param {boolean} createPath - Whether to create missing intermediate objects
+ * @returns {object|null} The target object/property or null if not found
+ */
+function safeNavigate(object, keys, createPath = false) {
+  let current = object
+  
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    
+    if (!isSafeKey(key)) {
+      return null
+    }
+    
+    if (current == null || typeof current !== 'object') {
+      return null
+    }
+    
+    if (!(key in current)) {
+      if (createPath) {
+        current[key] = {}
+      } else {
+        return null
+      }
+    }
+    
+    current = current[key]
+  }
+  
+  return current
+}
+
+/**
  * Split a path string into an array of keys
  * @param {string} path - The property path
  * @returns {string[]} Array of keys
@@ -71,16 +115,9 @@ export function getProperty(object, path, defaultValue) {
   }
   
   const keys = splitPath(path)
-  let current = object
+  const result = safeNavigate(object, keys)
   
-  for (const key of keys) {
-    if (current == null || typeof current !== 'object' || !(key in current)) {
-      return defaultValue
-    }
-    current = current[key]
-  }
-  
-  return current
+  return result !== null ? result : defaultValue
 }
 
 /**
@@ -100,11 +137,24 @@ export function setProperty(object, path, value) {
     throw new Error('Cannot set root object')
   }
   
-  let current = object
+  const lastKey = keys[keys.length - 1]
+  if (!isSafeKey(lastKey)) {
+    throw new Error('Cannot set unsafe property')
+  }
   
-  // Navigate to the parent of the target property
+  if (keys.length === 1) {
+    object[lastKey] = value
+    return
+  }
+  
+  // Navigate to parent, creating intermediate objects as needed
+  let current = object
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
+    
+    if (!isSafeKey(key)) {
+      throw new Error('Cannot navigate through unsafe property')
+    }
     
     if (!(key in current) || current[key] == null || typeof current[key] !== 'object') {
       current[key] = {}
@@ -113,8 +163,6 @@ export function setProperty(object, path, value) {
     current = current[key]
   }
   
-  // Set the final property
-  const lastKey = keys[keys.length - 1]
   current[lastKey] = value
 }
 
@@ -130,16 +178,14 @@ export function hasProperty(object, path) {
   }
   
   const keys = splitPath(path)
-  let current = object
   
-  for (const key of keys) {
-    if (current == null || typeof current !== 'object' || !(key in current)) {
-      return false
-    }
-    current = current[key]
+  // Check if any key in the path is unsafe
+  if (keys.some(key => !isSafeKey(key))) {
+    return false
   }
   
-  return true
+  const result = safeNavigate(object, keys)
+  return result !== null
 }
 
 /**
@@ -158,23 +204,24 @@ export function deleteProperty(object, path) {
     return false
   }
   
-  let current = object
-  
-  // Navigate to the parent of the target property
-  for (let i = 0; i < keys.length - 1; i++) {
-    const key = keys[i]
-    
-    if (current == null || typeof current !== 'object' || !(key in current)) {
-      return false
-    }
-    
-    current = current[key]
+  const lastKey = keys[keys.length - 1]
+  if (!isSafeKey(lastKey)) {
+    return false
   }
   
-  // Delete the final property
-  const lastKey = keys[keys.length - 1]
-  if (lastKey in current) {
-    delete current[lastKey]
+  if (keys.length === 1) {
+    if (lastKey in object) {
+      delete object[lastKey]
+      return true
+    }
+    return false
+  }
+  
+  const parentKeys = keys.slice(0, -1)
+  const parent = safeNavigate(object, parentKeys)
+  
+  if (parent !== null && lastKey in parent) {
+    delete parent[lastKey]
     return true
   }
   
