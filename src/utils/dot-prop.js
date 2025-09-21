@@ -13,93 +13,12 @@ function isSafeKey(key) {
 }
 
 /**
- * Safely navigate to a property in an object
- * @param {object} object - The target object
- * @param {string[]} keys - Array of property keys
- * @param {boolean} createPath - Whether to create missing intermediate objects
- * @returns {object|null} The target object/property or null if not found
- */
-function safeNavigate(object, keys, createPath = false) {
-  let current = object
-  
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i]
-    
-    if (!isSafeKey(key)) {
-      return null
-    }
-    
-    if (current == null || typeof current !== 'object') {
-      return null
-    }
-    
-    if (!(key in current)) {
-      if (createPath) {
-        current[key] = {}
-      } else {
-        return null
-      }
-    }
-    
-    current = current[key]
-  }
-  
-  return current
-}
-
-/**
  * Split a path string into an array of keys
  * @param {string} path - The property path
  * @returns {string[]} Array of keys
  */
 function splitPath(path) {
-  if (typeof path !== 'string') {
-    throw new TypeError('Path must be a string')
-  }
-  
-  if (path === '') {
-    return []
-  }
-  
-  // Handle simple cases without dots or brackets
-  if (!path.includes('.') && !path.includes('[')) {
-    return [path]
-  }
-  
-  const keys = []
-  let current = ''
-  let inBrackets = false
-  
-  for (let i = 0; i < path.length; i++) {
-    const char = path[i]
-    
-    if (char === '[') {
-      if (current) {
-        keys.push(current)
-        current = ''
-      }
-      inBrackets = true
-    } else if (char === ']') {
-      if (inBrackets && current) {
-        keys.push(current)
-        current = ''
-      }
-      inBrackets = false
-    } else if (char === '.' && !inBrackets) {
-      if (current) {
-        keys.push(current)
-        current = ''
-      }
-    } else {
-      current += char
-    }
-  }
-  
-  if (current) {
-    keys.push(current)
-  }
-  
-  return keys
+  return path.split('.')
 }
 
 /**
@@ -115,45 +34,41 @@ export function getProperty(object, path, defaultValue) {
   }
   
   const keys = splitPath(path)
-  const result = safeNavigate(object, keys)
+  let current = object
   
-  return result !== null ? result : defaultValue
+  for (const key of keys) {
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+      return defaultValue
+    }
+    current = current[key]
+  }
+  
+  return current
 }
 
 /**
  * Set a property value in an object using dot notation
- * @param {object} object - The target object
- * @param {string} path - The property path
+ * @param {object} path - The property path
  * @param {*} value - The value to set
  * @returns {void}
  */
 export function setProperty(object, path, value) {
-  if (!object || typeof object !== 'object') {
-    throw new TypeError('Object must be an object')
-  }
-  
   const keys = splitPath(path)
-  if (keys.length === 0) {
-    throw new Error('Cannot set root object')
-  }
-  
-  const lastKey = keys[keys.length - 1]
-  if (!isSafeKey(lastKey)) {
-    throw new Error('Cannot set unsafe property')
-  }
   
   if (keys.length === 1) {
-    object[lastKey] = value
+    const key = keys[0]
+    if (isSafeKey(key)) {
+      object[key] = value
+    }
     return
   }
   
-  // Navigate to parent, creating intermediate objects as needed
   let current = object
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
     
     if (!isSafeKey(key)) {
-      throw new Error('Cannot navigate through unsafe property')
+      return
     }
     
     if (!(key in current) || current[key] == null || typeof current[key] !== 'object') {
@@ -163,7 +78,10 @@ export function setProperty(object, path, value) {
     current = current[key]
   }
   
-  current[lastKey] = value
+  const lastKey = keys[keys.length - 1]
+  if (isSafeKey(lastKey)) {
+    current[lastKey] = value
+  }
 }
 
 /**
@@ -178,14 +96,16 @@ export function hasProperty(object, path) {
   }
   
   const keys = splitPath(path)
+  let current = object
   
-  // Check if any key in the path is unsafe
-  if (keys.some(key => !isSafeKey(key))) {
-    return false
+  for (const key of keys) {
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+      return false
+    }
+    current = current[key]
   }
   
-  const result = safeNavigate(object, keys)
-  return result !== null
+  return true
 }
 
 /**
@@ -200,28 +120,30 @@ export function deleteProperty(object, path) {
   }
   
   const keys = splitPath(path)
-  if (keys.length === 0) {
-    return false
-  }
-  
-  const lastKey = keys[keys.length - 1]
-  if (!isSafeKey(lastKey)) {
-    return false
-  }
   
   if (keys.length === 1) {
-    if (lastKey in object) {
-      delete object[lastKey]
+    const key = keys[0]
+    if (isSafeKey(key) && key in object) {
+      delete object[key]
       return true
     }
     return false
   }
   
-  const parentKeys = keys.slice(0, -1)
-  const parent = safeNavigate(object, parentKeys)
+  let current = object
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i]
+    
+    if (!isSafeKey(key) || current == null || typeof current !== 'object' || !(key in current)) {
+      return false
+    }
+    
+    current = current[key]
+  }
   
-  if (parent !== null && lastKey in parent) {
-    delete parent[lastKey]
+  const lastKey = keys[keys.length - 1]
+  if (isSafeKey(lastKey) && lastKey in current) {
+    delete current[lastKey]
     return true
   }
   

@@ -23,15 +23,8 @@ export function readPackageSync({ cwd = './' } = {}) {
     throw error
   }
   
-  try {
-    const content = readFileSync(packagePath, 'utf8')
-    return JSON.parse(content)
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      throw new Error(`Invalid JSON in ${packagePath}: ${error.message}`)
-    }
-    throw error
-  }
+  const content = readFileSync(packagePath, 'utf8')
+  return JSON.parse(content)
 }
 
 /**
@@ -56,9 +49,6 @@ export async function readPackage({ cwd = './' } = {}) {
       newError.path = packagePath
       throw newError
     }
-    if (error instanceof SyntaxError) {
-      throw new Error(`Invalid JSON in ${packagePath}: ${error.message}`)
-    }
     throw error
   }
 }
@@ -72,12 +62,7 @@ export async function readPackage({ cwd = './' } = {}) {
 export function writePackageSync(cwd, data) {
   const packagePath = resolve(cwd, 'package.json')
   const content = JSON.stringify(data, null, 2) + '\n'
-  
-  try {
-    writeFileSync(packagePath, content, 'utf8')
-  } catch (error) {
-    throw error
-  }
+  writeFileSync(packagePath, content, 'utf8')
 }
 
 /**
@@ -90,10 +75,5 @@ export async function writePackage(cwd, data) {
   const { writeFile } = await import('fs/promises')
   const packagePath = resolve(cwd, 'package.json')
   const content = JSON.stringify(data, null, 2) + '\n'
-  
-  try {
-    await writeFile(packagePath, content, 'utf8')
-  } catch (error) {
-    throw error
-  }
+  await writeFile(packagePath, content, 'utf8')
 }

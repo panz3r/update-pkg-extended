@@ -9,12 +9,6 @@
 export class SemVer {
   constructor(version) {
     this.raw = version || '0.0.0'
-    this.loose = false
-    this.includePrerelease = false
-    this.options = {}
-    this.prerelease = []
-    this.build = []
-    
     this.parse(version)
   }
   
@@ -23,22 +17,10 @@ export class SemVer {
    * @param {string} version - Version string to parse
    */
   parse(version) {
-    if (!version) {
-      this.major = 0
-      this.minor = 0
-      this.patch = 0
-      this.prerelease = []
-      this.build = []
-      this.version = '0.0.0'
-      return
-    }
-    
-    // Remove leading 'v' if present
-    const cleanVersion = version.replace(/^v/, '')
+    const cleanVersion = (version || '0.0.0').replace(/^v/, '')
     
     // Split by '+' for build metadata
-    const [versionPart, buildPart] = cleanVersion.split('+')
-    this.build = buildPart ? buildPart.split('.') : []
+    const [versionPart] = cleanVersion.split('+')
     
     // Split by '-' for prerelease
     const [corePart, prereleasePart] = versionPart.split('-')
@@ -49,9 +31,6 @@ export class SemVer {
     this.major = parseInt(coreParts[0] || '0', 10)
     this.minor = parseInt(coreParts[1] || '0', 10)
     this.patch = parseInt(coreParts[2] || '0', 10)
-    
-    // Rebuild version string
-    this.version = this.format()
   }
   
   /**
@@ -63,10 +42,6 @@ export class SemVer {
     
     if (this.prerelease && this.prerelease.length > 0) {
       version += '-' + this.prerelease.join('.')
-    }
-    
-    if (this.build && this.build.length > 0) {
-      version += '+' + this.build.join('.')
     }
     
     return version
@@ -81,10 +56,8 @@ export class SemVer {
     switch (release) {
       case 'major':
         if (this.prerelease.length > 0) {
-          // If there's a prerelease, just remove it (don't increment major)
           this.prerelease = []
         } else {
-          // Normal major increment
           this.major++
           this.minor = 0
           this.patch = 0
@@ -93,10 +66,8 @@ export class SemVer {
         
       case 'minor':
         if (this.prerelease.length > 0) {
-          // If there's a prerelease, just remove it (don't increment minor)
           this.prerelease = []
         } else {
-          // Normal minor increment
           this.minor++
           this.patch = 0
         }
@@ -104,21 +75,17 @@ export class SemVer {
         
       case 'patch':
         if (this.prerelease.length > 0) {
-          // If there's a prerelease, just remove it (don't increment patch)
           this.prerelease = []
         } else {
-          // Normal patch increment
           this.patch++
         }
         break
         
       case 'prerelease':
         if (this.prerelease.length === 0) {
-          // First prerelease, increment patch and add prerelease
           this.patch++
           this.prerelease = [identifier || 'alpha', 0]
         } else {
-          // Increment existing prerelease
           const lastIndex = this.prerelease.length - 1
           const lastItem = this.prerelease[lastIndex]
           
@@ -129,21 +96,9 @@ export class SemVer {
           }
         }
         break
-        
-      default:
-        throw new Error(`Invalid release type: ${release}`)
     }
     
-    this.version = this.format()
     return this
-  }
-  
-  /**
-   * Return string representation
-   * @returns {string} Version string
-   */
-  toString() {
-    return this.version
   }
 }
 
@@ -153,13 +108,5 @@ export class SemVer {
  * @returns {SemVer|null} Parsed SemVer object or null if invalid
  */
 export default function parse(version) {
-  if (!version || typeof version !== 'string') {
-    return null
-  }
-  
-  try {
-    return new SemVer(version)
-  } catch (error) {
-    return null
-  }
+  return new SemVer(version)
 }
