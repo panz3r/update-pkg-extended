@@ -115,7 +115,7 @@ pkg.del('unwanted.property') // Delete property
 ```
 
 ### Dependencies
-- **Runtime**: dot-prop (property manipulation), read-pkg/write-package (file I/O), semver (version parsing)
+- **Runtime**: All functionality is now implemented internally (internal utilities for property manipulation, file I/O, and version parsing)
 - **Development**: ava (testing), c8 (coverage), rimraf (cleanup), tmp (temp directories)
 - **Package Manager**: pnpm with frozen lockfile for reproducible builds
 
