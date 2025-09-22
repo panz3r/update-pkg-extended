@@ -6,16 +6,22 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 
 /**
- * Read and parse package.json synchronously
- * @param {object} options - Options object
- * @param {string} options.cwd - Directory to look for package.json
- * @returns {object} Parsed package.json content
+ * Options for reading package.json
  */
-export function readPackageSync({ cwd = './' } = {}) {
+interface ReadPackageOptions {
+  cwd?: string
+}
+
+/**
+ * Read and parse package.json synchronously
+ * @param options - Options object
+ * @returns Parsed package.json content
+ */
+export function readPackageSync({ cwd = './' }: ReadPackageOptions = {}): Record<string, any> {
   const packagePath = resolve(cwd, 'package.json')
   
   if (!existsSync(packagePath)) {
-    const error = new Error(`ENOENT: no such file or directory, open '${packagePath}'`)
+    const error = new Error(`ENOENT: no such file or directory, open '${packagePath}'`) as NodeJS.ErrnoException
     error.code = 'ENOENT'
     error.errno = -2
     error.syscall = 'open'
@@ -29,20 +35,19 @@ export function readPackageSync({ cwd = './' } = {}) {
 
 /**
  * Read and parse package.json asynchronously
- * @param {object} options - Options object
- * @param {string} options.cwd - Directory to look for package.json
- * @returns {Promise<object>} Parsed package.json content
+ * @param options - Options object
+ * @returns Parsed package.json content
  */
-export async function readPackage({ cwd = './' } = {}) {
+export async function readPackage({ cwd = './' }: ReadPackageOptions = {}): Promise<Record<string, any>> {
   const { readFile } = await import('fs/promises')
   const packagePath = resolve(cwd, 'package.json')
   
   try {
     const content = await readFile(packagePath, 'utf8')
     return JSON.parse(content)
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 'ENOENT') {
-      const newError = new Error(`ENOENT: no such file or directory, open '${packagePath}'`)
+      const newError = new Error(`ENOENT: no such file or directory, open '${packagePath}'`) as NodeJS.ErrnoException
       newError.code = 'ENOENT'
       newError.errno = -2
       newError.syscall = 'open'
@@ -55,11 +60,10 @@ export async function readPackage({ cwd = './' } = {}) {
 
 /**
  * Write package.json synchronously
- * @param {string} cwd - Directory to write package.json to
- * @param {object} data - Package data to write
- * @returns {void}
+ * @param cwd - Directory to write package.json to
+ * @param data - Package data to write
  */
-export function writePackageSync(cwd, data) {
+export function writePackageSync(cwd: string, data: Record<string, any>): void {
   const packagePath = resolve(cwd, 'package.json')
   const content = JSON.stringify(data, null, 2) + '\n'
   writeFileSync(packagePath, content, 'utf8')
@@ -67,11 +71,10 @@ export function writePackageSync(cwd, data) {
 
 /**
  * Write package.json asynchronously
- * @param {string} cwd - Directory to write package.json to
- * @param {object} data - Package data to write
- * @returns {Promise<void>}
+ * @param cwd - Directory to write package.json to
+ * @param data - Package data to write
  */
-export async function writePackage(cwd, data) {
+export async function writePackage(cwd: string, data: Record<string, any>): Promise<void> {
   const { writeFile } = await import('fs/promises')
   const packagePath = resolve(cwd, 'package.json')
   const content = JSON.stringify(data, null, 2) + '\n'

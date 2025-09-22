@@ -4,19 +4,34 @@
  */
 
 /**
+ * Valid release types for version increment
+ */
+type ReleaseType = 'major' | 'minor' | 'patch' | 'prerelease'
+
+/**
  * Simple semantic version class
  */
 export class SemVer {
-  constructor(version) {
+  raw: string
+  major: number
+  minor: number
+  patch: number
+  prerelease: (string | number)[]
+
+  constructor(version?: string) {
     this.raw = version || '0.0.0'
+    this.major = 0
+    this.minor = 0
+    this.patch = 0
+    this.prerelease = []
     this.parse(version)
   }
   
   /**
    * Parse a version string
-   * @param {string} version - Version string to parse
+   * @param version - Version string to parse
    */
-  parse(version) {
+  parse(version?: string): void {
     const cleanVersion = (version || '0.0.0').replace(/^v/, '')
     
     // Split by '+' for build metadata
@@ -35,9 +50,9 @@ export class SemVer {
   
   /**
    * Format version as string
-   * @returns {string} Formatted version string
+   * @returns Formatted version string
    */
-  format() {
+  format(): string {
     let version = `${this.major}.${this.minor}.${this.patch}`
     
     if (this.prerelease && this.prerelease.length > 0) {
@@ -49,10 +64,10 @@ export class SemVer {
   
   /**
    * Increment version based on release type
-   * @param {string} release - Release type: major, minor, patch, prerelease
-   * @param {string} identifier - Prerelease identifier (for prerelease bumps)
+   * @param release - Release type: major, minor, patch, prerelease
+   * @param identifier - Prerelease identifier (for prerelease bumps)
    */
-  inc(release, identifier) {
+  inc(release: ReleaseType, identifier?: string): this {
     switch (release) {
       case 'major':
         if (this.prerelease.length > 0) {
@@ -89,8 +104,8 @@ export class SemVer {
           const lastIndex = this.prerelease.length - 1
           const lastItem = this.prerelease[lastIndex]
           
-          if (typeof lastItem === 'number' || /^\d+$/.test(lastItem)) {
-            this.prerelease[lastIndex] = parseInt(lastItem, 10) + 1
+          if (typeof lastItem === 'number' || /^\d+$/.test(String(lastItem))) {
+            this.prerelease[lastIndex] = parseInt(String(lastItem), 10) + 1
           } else {
             this.prerelease.push(0)
           }
@@ -104,9 +119,9 @@ export class SemVer {
 
 /**
  * Parse a version string and return a SemVer object
- * @param {string} version - Version string to parse
- * @returns {SemVer|null} Parsed SemVer object or null if invalid
+ * @param version - Version string to parse
+ * @returns Parsed SemVer object
  */
-export default function parse(version) {
+export default function parse(version?: string): SemVer {
   return new SemVer(version)
 }

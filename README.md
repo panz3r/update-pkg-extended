@@ -21,10 +21,20 @@ or
 yarn add update-pkg-extended
 ```
 
+or
+
+```bash
+pnpm add update-pkg-extended
+```
+
+**Note:** This package is an ES module and requires Node.js 18 or higher.
+
 ## Usage
 
+### ES Modules (Recommended)
+
 ```js
-const Pkg = require('update-pkg-extended')
+import Pkg from 'update-pkg-extended'
 
 const pkg = new Pkg()
 pkg.data //=> package.json object
@@ -42,6 +52,15 @@ pkg.version.newMinor() // => '0.1.0'
 pkg.saveSync()
 // or using Promise
 pkg.save().then(/* ... */)
+```
+
+### CommonJS
+
+```js
+const Pkg = require('update-pkg-extended').default
+
+const pkg = new Pkg()
+// ... rest of the usage is the same
 ```
 
 ## API
@@ -110,7 +129,7 @@ Return formatted version (`0.0.3`) if `segment` is not specified, otherwise retu
 Type: `string`<br>
 Default: `undefined`
 
-Specify required version `segment`, should be one of `major`, `minor`, `patch` or `prerelease`
+Specify required version `segment`, should be one of `major`, `minor`, `patch`, `prerelease` or `prelease` (backward compatibility)
 
 ##### .newMajor()
 
@@ -212,7 +231,7 @@ Save data to `package.json` synchronously.
 
 ## TypeScript Support
 
-This project features comprehensive [TypeScript](https://www.typescriptlang.org/) support with full type definitions.
+This project is **written in TypeScript** and features comprehensive [TypeScript](https://www.typescriptlang.org/) support with full type definitions.
 
 ### Type Definitions
 
@@ -222,7 +241,53 @@ The library exports the following main types:
 - `IVersion` - Interface for the Version class  
 - `PkgOptions` - Options for creating a Pkg instance
 - `PackageData` - Type definition for package.json structure
-- `VersionSegment` - Type for version segments (`'major' | 'minor' | 'patch' | 'prerelease'`)
+- `VersionSegment` - Type for version segments (`'major' | 'minor' | 'patch' | 'prerelease' | 'prelease'`)
+
+### TypeScript Usage
+
+```typescript
+import Pkg, { PkgOptions, VersionSegment } from 'update-pkg-extended'
+
+const options: PkgOptions = { create: true }
+const pkg = new Pkg('./my-project', options)
+
+// Type-safe version segment access
+const segment: VersionSegment = 'major'
+const majorVersion = pkg.version.get(segment)
+
+// Type-safe property setting
+pkg.set('author.name', 'TypeScript Developer')
+pkg.set('engines.node', '>=18')
+
+pkg.saveSync()
+```
+
+## Development
+
+This project uses TypeScript and requires a build step:
+
+### Building
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build TypeScript to JavaScript
+pnpm run build
+
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm run coverage
+```
+
+### Scripts
+
+- `pnpm run build` - Compile TypeScript to JavaScript in `dist/` folder
+- `pnpm run clean` - Remove compiled `dist/` folder
+- `pnpm test` - Build and run all tests
+- `pnpm run coverage` - Run tests with 100% coverage requirement
 
 ## Credits
 

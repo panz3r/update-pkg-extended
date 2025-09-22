@@ -1,13 +1,31 @@
 import { getProperty, setProperty } from './utils/dot-prop.js'
-import svParse from './utils/semver.js'
+import svParse, { SemVer } from './utils/semver.js'
 
+/**
+ * Package data interface
+ */
+interface PackageData {
+  [key: string]: any
+}
+
+/**
+ * Version segment type
+ */
+type VersionSegment = 'major' | 'minor' | 'patch' | 'prerelease' | 'prelease'
+
+/**
+ * Version manipulation class
+ */
 class Version {
-  constructor (sourceData) {
-    this.data = sourceData
-    this._v = svParse(getProperty(this.data, 'version', '0.0.0'))
+  data: PackageData
+  private _v: SemVer
+
+  constructor(sourceData?: PackageData) {
+    this.data = sourceData || {}
+    this._v = svParse(getProperty(this.data, 'version', '0.0.0') as string)
   }
 
-  get (segment) {
+  get(segment?: VersionSegment): string | null {
     switch (segment) {
       case 'major':
         return this._v.major.toString()
@@ -27,42 +45,54 @@ class Version {
     }
   }
 
-  _set () {
+  private _set(): this {
     setProperty(this.data, 'version', this.get())
     return this
   }
 
-  newMajor () {
+  newMajor(): this {
     this._v.inc('major')
     return this._set()
   }
 
-  newMinor () {
+  newMinor(): this {
     this._v.inc('minor')
     return this._set()
   }
 
-  newPatch () {
+  newPatch(): this {
     this._v.inc('patch')
     return this._set()
   }
 
-  major (major) {
-    major !== undefined && major !== null ? this._v.major = major : this._v.major++
+  major(major?: number): this {
+    if (major !== undefined && major !== null) {
+      this._v.major = major
+    } else {
+      this._v.major++
+    }
     return this._set()
   }
 
-  minor (minor) {
-    minor !== undefined && minor !== null ? this._v.minor = minor : this._v.minor++
+  minor(minor?: number): this {
+    if (minor !== undefined && minor !== null) {
+      this._v.minor = minor
+    } else {
+      this._v.minor++
+    }
     return this._set()
   }
 
-  patch (patch) {
-    patch !== undefined && patch !== null ? this._v.patch = patch : this._v.patch++
+  patch(patch?: number): this {
+    if (patch !== undefined && patch !== null) {
+      this._v.patch = patch
+    } else {
+      this._v.patch++
+    }
     return this._set()
   }
 
-  prerelease (prereleaseIdentifier, prereleaseVersion) {
+  prerelease(prereleaseIdentifier: string, prereleaseVersion?: number): this {
     if (!prereleaseIdentifier) {
       throw new Error('Missing required argument prereleaseIdentifier')
     }
