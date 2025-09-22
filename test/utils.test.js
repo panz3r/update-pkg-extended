@@ -93,3 +93,83 @@ test('semver inc patch without prerelease', t => {
   version.inc('patch')
   t.is(version.format(), '1.0.1')
 })
+
+test('semver constructor with null version', t => {
+  const version = parse(null)
+  t.is(version.format(), '0.0.0')
+})
+
+test('semver constructor with undefined version', t => {
+  const version = parse(undefined)
+  t.is(version.format(), '0.0.0')
+})
+
+test('semver parse version with v prefix', t => {
+  const version = parse('v1.2.3')
+  t.is(version.format(), '1.2.3')
+})
+
+test('semver parse version with missing minor and patch', t => {
+  const version = parse('1')
+  t.is(version.format(), '1.0.0')
+})
+
+test('semver parse version with missing patch', t => {
+  const version = parse('1.2')
+  t.is(version.format(), '1.2.0')
+})
+
+test('semver inc prerelease with non-numeric last item', t => {
+  const version = parse('1.0.0-alpha.beta')
+  version.inc('prerelease')
+  t.is(version.format(), '1.0.0-alpha.beta.0')
+})
+
+test('setProperty creates intermediate object when current property is null', t => {
+  const obj = { test: null }
+  setProperty(obj, 'test.nested', 'value')
+  t.deepEqual(obj, { test: { nested: 'value' } })
+})
+
+test('setProperty creates intermediate object when current property is not an object', t => {
+  const obj = { test: 'string' }
+  setProperty(obj, 'test.nested', 'value')
+  t.deepEqual(obj, { test: { nested: 'value' } })
+})
+
+test('semver parse version with empty segments', t => {
+  const version = parse('1..3')
+  t.is(version.format(), '1.0.3')
+})
+
+test('semver parse version with empty trailing segments', t => {
+  const version = parse('1.2.')
+  t.is(version.format(), '1.2.0')
+})
+
+test('semver parse version with empty major segment', t => {
+  const version = parse('.1.2')
+  t.is(version.format(), '0.1.2')
+})
+
+test('semver inc prerelease with complex non-numeric last item', t => {
+  const version = parse('1.0.0-alpha.beta-gamma')
+  version.inc('prerelease')
+  t.is(version.format(), '1.0.0-alpha.beta.0')
+})
+
+test('semver inc prerelease with string numeric last item', t => {
+  // Test case where last prerelease item is a string that looks like a number
+  const version = parse('1.0.0-alpha.5')
+  version.inc('prerelease')
+  t.is(version.format(), '1.0.0-alpha.6')
+})
+
+test('semver inc prerelease with actual numeric last item', t => {
+  // Test case where we explicitly have a numeric last item
+  const version = parse('1.0.0-beta.3')
+  // Manually modify prerelease to have a number instead of string
+  version.prerelease = ['beta', 3]
+  version.inc('prerelease')
+  t.is(version.format(), '1.0.0-beta.4')
+})

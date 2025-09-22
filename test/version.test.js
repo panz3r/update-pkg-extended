@@ -228,7 +228,7 @@ test('preRelease (get)', t => {
   const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
 
   // Expectations
-  t.is(version.get('prelease'), 'alpha.1')
+  t.is(version.get('prerelease'), 'alpha.1')
 })
 
 test('preRelease (get null)', t => {
@@ -236,6 +236,22 @@ test('preRelease (get null)', t => {
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
+  t.is(version.get('prerelease'), null)
+})
+
+test('preRelease (get - backward compatibility with typo)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
+
+  // Expectations - should still work with the old typo for backward compatibility
+  t.is(version.get('prelease'), 'alpha.1')
+})
+
+test('preRelease (get null - backward compatibility with typo)', t => {
+  // Setup
+  const version = new Version(Object.assign({}, sampleData))
+
+  // Expectations - should still work with the old typo for backward compatibility
   t.is(version.get('prelease'), null)
 })
 
