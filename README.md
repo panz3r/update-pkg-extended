@@ -1,6 +1,6 @@
 # update-pkg-extended
 
-> Update package.json with ease
+> Update package.json with ease - Now with isomorphic support! 🌐
 
 [![license](https://img.shields.io/npm/l/update-pkg-extended)](LICENSE) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -8,6 +8,20 @@
 [![Github Issues](https://img.shields.io/github/issues/panz3r/update-pkg-extended.svg)](https://github.com/panz3r/update-pkg-extended/issues)
 
 [![NPM version](https://img.shields.io/npm/v/update-pkg-extended.svg)](https://npmjs.com/package/update-pkg-extended) [![NPM downloads](https://img.shields.io/npm/dm/update-pkg-extended.svg)](https://npmjs.com/package/update-pkg-extended)
+
+A Node.js ES module library for programmatically reading, modifying, and writing package.json files with advanced version management capabilities.
+
+**✨ Now with isomorphic support!** Use in browsers, serverless environments, or any JavaScript runtime without filesystem dependencies.
+
+## Features
+
+- 🌐 **Isomorphic**: Works in browsers, Node.js, serverless, and any JavaScript environment
+- 📁 **Filesystem Support**: Optional Node.js filesystem operations for traditional workflows  
+- 🎯 **Version Management**: Advanced semantic version manipulation with prerelease support
+- 🔗 **Method Chaining**: Fluent API for streamlined package.json manipulation
+- 🔧 **Dot Notation**: Deep property access using dot notation (e.g., `author.name`)
+- 📦 **TypeScript**: Full TypeScript support with comprehensive type definitions
+- 🧪 **100% Test Coverage**: Thoroughly tested with comprehensive test suite
 
 ## Install
 
@@ -31,7 +45,99 @@ pnpm add update-pkg-extended
 
 ## Usage
 
-### ES Modules (Recommended)
+### Isomorphic Core (Works Everywhere)
+
+Use the isomorphic core to manipulate package.json data without filesystem dependencies:
+
+```js
+import { PkgCore } from 'update-pkg-extended/core'
+
+// Create from existing package.json data
+const packageData = {
+  name: 'my-package',
+  version: '1.0.0',
+  description: 'A sample package'
+}
+
+const pkg = new PkgCore(packageData)
+
+// Manipulate the data
+pkg.set('author.name', 'John Doe')
+pkg.version.newMinor() // 1.1.0
+pkg.append('keywords', 'awesome')
+
+// Get the updated JSON
+const updatedJson = pkg.stringify()
+console.log(updatedJson)
+```
+
+### Node.js with Filesystem (Traditional)
+
+For Node.js environments with filesystem access:
+
+```js
+import Pkg from 'update-pkg-extended'
+
+// Traditional usage - reads from filesystem
+const pkg = new Pkg()
+
+// Update package.json fields
+pkg.set('author.name', 'panz3r')
+pkg.version.newMinor()
+
+// Save to filesystem
+pkg.saveSync()
+// or async
+await pkg.save()
+```
+
+### Hybrid Approach
+
+Combine isomorphic data manipulation with filesystem operations:
+
+```js
+import Pkg from 'update-pkg-extended'
+
+// Start with provided data instead of reading from filesystem
+const pkg = new Pkg('.', { 
+  data: { name: 'my-app', version: '1.0.0' },
+  create: true 
+})
+
+// Manipulate the data
+pkg.set('description', 'My awesome app')
+pkg.version.newPatch()
+
+// Save to filesystem when ready
+await pkg.save()
+```
+
+### Browser/Serverless Usage
+
+In environments without filesystem access:
+
+```js
+import { PkgCore } from 'update-pkg-extended/core'
+
+// Fetch package.json from API or other source
+const response = await fetch('/api/package-json')
+const packageData = await response.json()
+
+// Manipulate the data
+const pkg = new PkgCore(packageData)
+pkg.set('version', '2.0.0')
+pkg.set('scripts.build', 'webpack --mode=production')
+
+// Send updated data back to API
+const updatedData = pkg.data
+await fetch('/api/package-json', {
+  method: 'PUT',
+  body: JSON.stringify(updatedData),
+  headers: { 'Content-Type': 'application/json' }
+})
+```
+
+### ES Modules (Legacy Documentation)
 
 ```js
 import Pkg from 'update-pkg-extended'
@@ -65,16 +171,40 @@ const pkg = new Pkg()
 
 ## API
 
+### Entry Points
+
+- **`update-pkg-extended`** - Main entry point, exports Node.js version for backward compatibility
+- **`update-pkg-extended/core`** - Isomorphic core, works in any JavaScript environment
+- **`update-pkg-extended/node`** - Explicit Node.js version with filesystem operations
+
+### new PkgCore([data, options])
+
+Create a new isomorphic PkgCore instance for manipulating package.json data.
+
+#### data
+
+Type: `object`<br>
+Optional package.json data object.
+
+#### options
+
+Type: `object`
+
+##### data
+
+Type: `object`<br>
+Alternative way to provide package.json data: `new PkgCore({ data: packageJson })`
+
 ### new Pkg([cwd, options])
 
-Return a new Pkg instance representing `package.json` located at `cwd` folder.
+Create a new Node.js Pkg instance with filesystem support.
 
 #### cwd
 
 Type: `string`<br>
 Default: `'./'`
 
-Directory where a `package.json` can be found. Defaults to current directory.
+Directory where a `package.json` can be found or will be created.
 
 #### options
 
@@ -85,21 +215,35 @@ Default: `false`
 
 Create `package.json` when it does not exist.
 
+##### data
+
+Type: `object`<br>
+Provide package.json data directly instead of reading from filesystem (isomorphic mode).
+
 ### .data
 
 Type: `object`<br>
 Default: `{}`
 
-The parsed content of `package.json`.
+The package.json data object.
 
 ### .set(keyPath, value)
 
-Set value by the given `keyPath` like `author.name` and `value` like `panz3r`.
+Set value by the given `keyPath` using dot notation.
+
+```js
+pkg.set('author.name', 'panz3r')
+pkg.set('scripts.test', 'ava')
+```
 
 ### .get(keyPath [,defaultValue])
 
-Get value by the given keyPath.<br>
-If `keyPath` is not found and `defaultValue` is specified, `defaultValue` will be returned, otherwise will return `undefined`
+Get value by the given keyPath. Returns `defaultValue` if keyPath is not found.
+
+```js
+pkg.get('author.name') // => 'panz3r'
+pkg.get('nonexistent', 'default') // => 'default'
+```
 
 ### .update(keyPath, updateFn)
 
@@ -229,6 +373,93 @@ Return: `this`
 
 Save data to `package.json` synchronously.
 
+### .stringify([space])
+
+**(Available only in PkgCore)**
+
+Type: `function`<br>
+Return: `string`
+
+Get the package.json content as a formatted JSON string.
+
+#### space
+
+Type: `number`<br>
+Default: `2`
+
+Number of spaces for indentation.
+
+```js
+import { PkgCore } from 'update-pkg-extended/core'
+
+const pkg = new PkgCore({ name: 'test', version: '1.0.0' })
+const jsonString = pkg.stringify()
+// Returns formatted JSON string with newline at end
+```
+
+## Migration Guide
+
+### From v5.x to v6.x (Isomorphic Update)
+
+The v6.x release introduces isomorphic support while maintaining full backward compatibility.
+
+#### Existing Code (Still Works!)
+
+```js
+// This continues to work exactly as before
+import Pkg from 'update-pkg-extended'
+
+const pkg = new Pkg()
+pkg.set('version', '2.0.0')
+pkg.saveSync()
+```
+
+#### New Isomorphic Usage
+
+```js
+// For environments without filesystem access
+import { PkgCore } from 'update-pkg-extended/core'
+
+const pkg = new PkgCore({ name: 'my-app', version: '1.0.0' })
+pkg.set('description', 'My awesome app')
+const updatedJson = pkg.stringify()
+```
+
+#### Hybrid Usage
+
+```js
+// Combine provided data with filesystem operations
+import Pkg from 'update-pkg-extended'
+
+const pkg = new Pkg('.', { 
+  data: { name: 'my-app', version: '1.0.0' },
+  create: true 
+})
+pkg.set('description', 'Updated')
+await pkg.save()
+```
+
+### Breaking Changes
+
+**None!** This release is fully backward compatible.
+
+### New Features
+
+- ✨ **Isomorphic Core**: Import from `update-pkg-extended/core` for browser/serverless usage
+- 🔧 **Data Option**: Pass package.json data directly via the `data` option
+- 📦 **New Entry Points**: Access specific functionality via `/core` and `/node` sub-imports
+- 🎯 **stringify() Method**: Convert package data to formatted JSON string
+
+## Environment Support
+
+| Environment | Entry Point | Filesystem | Notes |
+|-------------|-------------|------------|-------|
+| **Node.js** | `update-pkg-extended` | ✅ | Full traditional support |
+| **Browser** | `update-pkg-extended/core` | ❌ | Isomorphic core only |
+| **Serverless** | `update-pkg-extended/core` | ❌ | Perfect for edge functions |
+| **Deno/Bun** | `update-pkg-extended/core` | ❌ | Use isomorphic core |
+| **Web Workers** | `update-pkg-extended/core` | ❌ | Manipulate data only |
+
 ## TypeScript Support
 
 This project is **written in TypeScript** and features comprehensive [TypeScript](https://www.typescriptlang.org/) support with full type definitions.
@@ -237,29 +468,36 @@ This project is **written in TypeScript** and features comprehensive [TypeScript
 
 The library exports the following main types:
 
-- `IPkg` - Interface for the main Pkg class
-- `IVersion` - Interface for the Version class  
-- `PkgOptions` - Options for creating a Pkg instance
+- `PkgCore` - Isomorphic core class
+- `Pkg` - Node.js class with filesystem support  
+- `Version` - Version manipulation class
+- `PkgCoreOptions` - Options for creating a PkgCore instance
+- `PkgOptions` - Options for creating a Pkg instance (extends PkgCoreOptions)
 - `PackageData` - Type definition for package.json structure
 - `VersionSegment` - Type for version segments (`'major' | 'minor' | 'patch' | 'prerelease' | 'prelease'`)
 
 ### TypeScript Usage
 
 ```typescript
-import Pkg, { PkgOptions, VersionSegment } from 'update-pkg-extended'
+import Pkg, { PkgCore, PkgOptions, VersionSegment } from 'update-pkg-extended'
 
-const options: PkgOptions = { create: true }
-const pkg = new Pkg('./my-project', options)
+// Node.js usage with filesystem
+const nodeOptions: PkgOptions = { create: true, data: { name: 'test' } }
+const nodePkg = new Pkg('./my-project', nodeOptions)
+
+// Isomorphic usage
+const corePkg = new PkgCore({ name: 'isomorphic-pkg', version: '1.0.0' })
 
 // Type-safe version segment access
 const segment: VersionSegment = 'major'
-const majorVersion = pkg.version.get(segment)
+const majorVersion = corePkg.version.get(segment)
 
 // Type-safe property setting
-pkg.set('author.name', 'TypeScript Developer')
-pkg.set('engines.node', '>=18')
+corePkg.set('author.name', 'TypeScript Developer')
+corePkg.set('engines.node', '>=18')
 
-pkg.saveSync()
+// Get formatted output
+const jsonString: string = corePkg.stringify()
 ```
 
 ## Development

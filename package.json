@@ -33,7 +33,20 @@
     }
   },
   "type": "module",
-  "exports": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./core": {
+      "import": "./dist/core-entry.js",
+      "types": "./dist/core-entry.d.ts"
+    },
+    "./node": {
+      "import": "./dist/node-entry.js",
+      "types": "./dist/node-entry.d.ts"
+    }
+  },
   "types": "./dist/index.d.ts",
   "files": [
     "/dist/*.js",
