@@ -18,7 +18,8 @@ class Version {
       case 'patch':
         return this._v.patch.toString()
 
-      case 'prelease':
+      case 'prerelease':
+      case 'prelease':  // Backward compatibility for typo
         return this._v.prerelease && this._v.prerelease.length > 0 ? this._v.prerelease.join('.') : null
 
       default:
@@ -61,15 +62,15 @@ class Version {
     return this._set()
   }
 
-  prerelease (preleaseIdentifier, preleaseVersion) {
-    if (!preleaseIdentifier) {
-      throw new Error('Missing required argument preleaseIdentifier')
+  prerelease (prereleaseIdentifier, prereleaseVersion) {
+    if (!prereleaseIdentifier) {
+      throw new Error('Missing required argument prereleaseIdentifier')
     }
 
-    if (preleaseVersion !== undefined && preleaseVersion !== null) {
-      this._v.prerelease = [preleaseIdentifier, preleaseVersion]
+    if (prereleaseVersion !== undefined && prereleaseVersion !== null) {
+      this._v.prerelease = [prereleaseIdentifier, prereleaseVersion]
     } else {
-      this._v.inc('prerelease', preleaseIdentifier)
+      this._v.inc('prerelease', prereleaseIdentifier)
     }
 
     return this._set()
