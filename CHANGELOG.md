@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.1](https://github.com/panz3r/update-pkg-extended/compare/v6.0.0...v6.0.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* update Version feature to fix typo in `prerelease` support ([#33](https://github.com/panz3r/update-pkg-extended/issues/33)) ([50c3641](https://github.com/panz3r/update-pkg-extended/commit/50c3641336488176a94df80a61d8e8bcddea59e0))
+
 ## [6.0.0](https://github.com/panz3r/update-pkg-extended/compare/v5.1.0...v6.0.0) (2025-09-21)
 
 
