@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.0.0](https://github.com/panz3r/update-pkg-extended/compare/v6.0.1...v7.0.0) (2025-09-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate codebase to TypeScript ([#32](https://github.com/panz3r/update-pkg-extended/issues/32))
+
+### Features
+
+* add isomorphic support for browser and serverless environments ([#36](https://github.com/panz3r/update-pkg-extended/issues/36)) ([a8524b7](https://github.com/panz3r/update-pkg-extended/commit/a8524b741e8c641649848fe9c5331bbcfe0542bf))
+* migrate codebase to TypeScript ([#32](https://github.com/panz3r/update-pkg-extended/issues/32)) ([999a89b](https://github.com/panz3r/update-pkg-extended/commit/999a89b9b31d5806f822a0d3c61a28600c2175ad))
+
 ## [6.0.1](https://github.com/panz3r/update-pkg-extended/compare/v6.0.0...v6.0.1) (2025-09-22)
 
 
