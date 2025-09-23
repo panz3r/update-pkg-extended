@@ -1,8 +1,9 @@
-// For backward compatibility, export the Node.js version as default
-import Pkg from './node.js'
-export default Pkg
+/**
+ * Node.js-specific entry point for update-pkg-extended
+ * Import from 'update-pkg-extended/node' to get explicit Node.js functionality
+ */
 
-// Export additional classes and types
+export { default, Pkg } from './node.js'
 export { default as Version } from './version.js'
 export { PkgCore } from './core.js'
 export type { PackageData, PkgCoreOptions } from './core.js'
