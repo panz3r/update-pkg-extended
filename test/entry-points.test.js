@@ -77,11 +77,11 @@ test('Pkg is consistently exported from all entry points', async t => {
   // Core and node entry points should both export Pkg
   t.truthy(coreModule.Pkg)
   t.truthy(nodeModule.Pkg)
-  
+
   // Main should export PkgCore (core class) and default should be node Pkg
   t.truthy(mainModule.PkgCore)
   t.is(mainModule.default, nodeModule.Pkg)
-  
+
   // Core entry Pkg should be the same as main PkgCore
   t.is(coreModule.Pkg, mainModule.PkgCore)
   t.is(coreModule.Pkg, coreModule.PkgCore)
