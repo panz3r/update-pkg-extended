@@ -20,19 +20,18 @@ test('main entry exports Node.js Pkg by default for backward compatibility', asy
 })
 
 // Test the core entry point
-test('core entry exports isomorphic PkgCore', async t => {
+test('core entry exports isomorphic Pkg', async t => {
   const module = await import('../dist/core-entry.js')
 
-  t.truthy(module.default)
+  t.truthy(module.Pkg)
   t.truthy(module.PkgCore)
   t.truthy(module.Version)
 
   // Should be the same class
-  t.is(module.default, module.PkgCore)
+  t.is(module.Pkg, module.PkgCore)
 
   // Test that it's isomorphic (no filesystem methods)
-  const CorePkg = module.default
-  const pkg = new CorePkg({ name: 'test' })
+  const pkg = new module.Pkg({ name: 'test' })
   t.is(typeof pkg.save, 'undefined')
   t.is(typeof pkg.saveSync, 'undefined')
   t.is(typeof pkg.path, 'undefined')
@@ -70,13 +69,20 @@ test('all entry points export compatible Version class', async t => {
   t.is(mainModule.Version, nodeModule.Version)
 })
 
-test('PkgCore is consistently exported', async t => {
+test('Pkg is consistently exported from all entry points', async t => {
   const mainModule = await import('../dist/index.js')
   const coreModule = await import('../dist/core-entry.js')
   const nodeModule = await import('../dist/node-entry.js')
 
-  // All should export the same PkgCore class
-  t.is(mainModule.PkgCore, coreModule.PkgCore)
-  t.is(mainModule.PkgCore, nodeModule.PkgCore)
-  t.is(coreModule.default, coreModule.PkgCore)
+  // Core and node entry points should both export Pkg
+  t.truthy(coreModule.Pkg)
+  t.truthy(nodeModule.Pkg)
+  
+  // Main should export PkgCore (core class) and default should be node Pkg
+  t.truthy(mainModule.PkgCore)
+  t.is(mainModule.default, nodeModule.Pkg)
+  
+  // Core entry Pkg should be the same as main PkgCore
+  t.is(coreModule.Pkg, mainModule.PkgCore)
+  t.is(coreModule.Pkg, coreModule.PkgCore)
 })
