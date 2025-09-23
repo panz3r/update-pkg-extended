@@ -50,7 +50,7 @@ pnpm add update-pkg-extended
 Use the isomorphic core to manipulate package.json data without filesystem dependencies:
 
 ```js
-import { PkgCore } from 'update-pkg-extended/core'
+import { Pkg } from 'update-pkg-extended/core'
 
 // Create from existing package.json data
 const packageData = {
@@ -59,7 +59,7 @@ const packageData = {
   description: 'A sample package'
 }
 
-const pkg = new PkgCore(packageData)
+const pkg = new Pkg(packageData)
 
 // Manipulate the data
 pkg.set('author.name', 'John Doe')
@@ -117,14 +117,14 @@ await pkg.save()
 In environments without filesystem access:
 
 ```js
-import { PkgCore } from 'update-pkg-extended/core'
+import { Pkg } from 'update-pkg-extended/core'
 
 // Fetch package.json from API or other source
 const response = await fetch('/api/package-json')
 const packageData = await response.json()
 
 // Manipulate the data
-const pkg = new PkgCore(packageData)
+const pkg = new Pkg(packageData)
 pkg.set('version', '2.0.0')
 pkg.set('scripts.build', 'webpack --mode=production')
 
@@ -177,9 +177,11 @@ const pkg = new Pkg()
 - **`update-pkg-extended/core`** - Isomorphic core, works in any JavaScript environment
 - **`update-pkg-extended/node`** - Explicit Node.js version with filesystem operations
 
-### new PkgCore([data, options])
+### new Pkg([data, options])
 
-Create a new isomorphic PkgCore instance for manipulating package.json data.
+**(From `update-pkg-extended/core`)**
+
+Create a new isomorphic Pkg instance for manipulating package.json data.
 
 #### data
 
@@ -193,7 +195,7 @@ Type: `object`
 ##### data
 
 Type: `object`<br>
-Alternative way to provide package.json data: `new PkgCore({ data: packageJson })`
+Alternative way to provide package.json data: `new Pkg({ data: packageJson })`
 
 ### new Pkg([cwd, options])
 
@@ -375,7 +377,7 @@ Save data to `package.json` synchronously.
 
 ### .stringify([space])
 
-**(Available only in PkgCore)**
+**(Available in both isomorphic and Node.js versions)**
 
 Type: `function`<br>
 Return: `string`
@@ -390,9 +392,9 @@ Default: `2`
 Number of spaces for indentation.
 
 ```js
-import { PkgCore } from 'update-pkg-extended/core'
+import { Pkg } from 'update-pkg-extended/core'
 
-const pkg = new PkgCore({ name: 'test', version: '1.0.0' })
+const pkg = new Pkg({ name: 'test', version: '1.0.0' })
 const jsonString = pkg.stringify()
 // Returns formatted JSON string with newline at end
 ```
@@ -418,9 +420,9 @@ pkg.saveSync()
 
 ```js
 // For environments without filesystem access
-import { PkgCore } from 'update-pkg-extended/core'
+import { Pkg } from 'update-pkg-extended/core'
 
-const pkg = new PkgCore({ name: 'my-app', version: '1.0.0' })
+const pkg = new Pkg({ name: 'my-app', version: '1.0.0' })
 pkg.set('description', 'My awesome app')
 const updatedJson = pkg.stringify()
 ```
@@ -468,25 +470,26 @@ This project is **written in TypeScript** and features comprehensive [TypeScript
 
 The library exports the following main types:
 
-- `PkgCore` - Isomorphic core class
-- `Pkg` - Node.js class with filesystem support  
+- `Pkg` - Available from both core and node entry points (isomorphic or Node.js functionality)  
+- `PkgCore` - Isomorphic core class (also exported as `Pkg` from core entry)
 - `Version` - Version manipulation class
-- `PkgCoreOptions` - Options for creating a PkgCore instance
-- `PkgOptions` - Options for creating a Pkg instance (extends PkgCoreOptions)
+- `PkgCoreOptions` - Options for creating a core Pkg instance
+- `PkgOptions` - Options for creating a Node.js Pkg instance (extends PkgCoreOptions)
 - `PackageData` - Type definition for package.json structure
 - `VersionSegment` - Type for version segments (`'major' | 'minor' | 'patch' | 'prerelease' | 'prelease'`)
 
 ### TypeScript Usage
 
 ```typescript
-import Pkg, { PkgCore, PkgOptions, VersionSegment } from 'update-pkg-extended'
+import Pkg, { PkgOptions, VersionSegment } from 'update-pkg-extended'
+import { Pkg as CorePkg } from 'update-pkg-extended/core'
 
 // Node.js usage with filesystem
 const nodeOptions: PkgOptions = { create: true, data: { name: 'test' } }
 const nodePkg = new Pkg('./my-project', nodeOptions)
 
 // Isomorphic usage
-const corePkg = new PkgCore({ name: 'isomorphic-pkg', version: '1.0.0' })
+const corePkg = new CorePkg({ name: 'isomorphic-pkg', version: '1.0.0' })
 
 // Type-safe version segment access
 const segment: VersionSegment = 'major'
