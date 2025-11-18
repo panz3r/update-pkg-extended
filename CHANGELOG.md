@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.0.1](https://github.com/panz3r/update-pkg-extended/compare/v7.0.0...v7.0.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* update dependencies and GitHub Actions workflows ([#49](https://github.com/panz3r/update-pkg-extended/issues/49)) ([dec1623](https://github.com/panz3r/update-pkg-extended/commit/dec1623cf8ee4db04bb2fde1390881ce6bef2a87))
+
 ## [7.0.0](https://github.com/panz3r/update-pkg-extended/compare/v6.0.1...v7.0.0) (2025-09-23)
 
 
