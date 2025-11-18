@@ -6,6 +6,7 @@ on:
       - main
   schedule:
     - cron: "0 17 * * 2" # Weekly on Tuesday evenings
+  workflow_dispatch:
 
 jobs:
   release-please:
