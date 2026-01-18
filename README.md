@@ -235,7 +235,7 @@ Set value by the given `keyPath` using dot notation.
 
 ```js
 pkg.set('author.name', 'panz3r')
-pkg.set('scripts.test', 'ava')
+pkg.set('scripts.test', 'node --test')
 ```
 
 ### .get(keyPath [,defaultValue])
