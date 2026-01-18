@@ -30,7 +30,7 @@ pkg.version.minor(0); // Set minor version to 0
 pkg.version.patch(0); // Set patch version to 0
 console.log('After setting version to 1.0.0:', pkg.version.get());
 
-pkg.set('scripts.test', 'ava');
+pkg.set('scripts.test', 'node --test');
 pkg.version.newMinor(); // Should increment to 1.1.0
 console.log('After newMinor:', pkg.version.get());
 
@@ -47,13 +47,13 @@ console.log('Final package version:', pkg.version.get());
 
 This is a pure ES module library with no build step required.
 - **Dependencies**: pnpm v10.17.0 package manager with frozen lockfile
-- **Tests**: AVA test framework with comprehensive test suite achieving 100% code coverage
+- **Tests**: Node.js built-in test runner (node:test) with comprehensive test suite achieving 100% code coverage
 - **Linting**: StandardJS linting enforced in CI
 - **Coverage**: c8 tool enforcing 100% line coverage
 - **CI/CD**: GitHub Actions with matrix testing across Node.js versions and OS platforms
 
 Test commands with accurate timing:
-- `pnpm test` -- 1 second, runs full test suite
+- `pnpm test` -- 1 second, runs full test suite with Node.js test runner
 - `pnpm run coverage` -- 2 seconds, runs tests with coverage enforcement  
 - `pnpx standard --verbose "src/**/*.js" "test/**/*.js"` -- 16 seconds, lints all source files
 
@@ -116,7 +116,8 @@ pkg.del('unwanted.property') // Delete property
 
 ### Dependencies
 - **Runtime**: All functionality is now implemented internally (internal utilities for property manipulation, file I/O, and version parsing)
-- **Development**: ava (testing), c8 (coverage), rimraf (cleanup), tmp (temp directories)
+- **Development**: c8 (coverage), rimraf (cleanup), tmp (temp directories)
+- **Testing**: Node.js built-in test runner (node:test)
 - **Package Manager**: pnpm with frozen lockfile for reproducible builds
 
 ## Common Tasks
@@ -175,7 +176,7 @@ test/                  - Test files
   "name": "example-package",
   "version": "1.2.3-beta.1",
   "scripts": {
-    "test": "ava",
+    "test": "node --test",
     "build": "tsc"
   },
   "dependencies": {

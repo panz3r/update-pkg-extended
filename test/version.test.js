@@ -1,59 +1,60 @@
-import test from 'ava'
+import { test } from 'node:test'
+import assert from 'node:assert'
 
 import Version from '../dist/version.js'
 
 const sampleDataNoVer = { name: 'test package' }
 const sampleData = { name: 'test package', version: '0.0.1' }
 
-test('version setup (without data)', t => {
+test('version setup (without data)', () => {
   // Setup
   const version = new Version()
 
   // Expectations
-  t.is(version.get(), '0.0.0')
+  assert.strictEqual(version.get(), '0.0.0')
 })
 
-test('version setup (with data without version)', t => {
+test('version setup (with data without version)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleDataNoVer))
 
   // Expectations
-  t.is(version.get(), '0.0.0')
+  assert.strictEqual(version.get(), '0.0.0')
 })
 
-test('get version', t => {
+test('get version', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.is(version.get(), '0.0.1')
+  assert.strictEqual(version.get(), '0.0.1')
 })
 
-test('get Major version segment', t => {
+test('get Major version segment', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.is(version.get('major'), '0')
+  assert.strictEqual(version.get('major'), '0')
 })
 
-test('get Minor version segment', t => {
+test('get Minor version segment', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.is(version.get('minor'), '0')
+  assert.strictEqual(version.get('minor'), '0')
 })
 
-test('get Patch version segment', t => {
+test('get Patch version segment', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.is(version.get('patch'), '1')
+  assert.strictEqual(version.get('patch'), '1')
 })
 
-test('newMajor version', t => {
+test('newMajor version', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -61,10 +62,10 @@ test('newMajor version', t => {
   version.newMajor()
 
   // Expectations
-  t.is(version.get(), '1.0.0')
+  assert.strictEqual(version.get(), '1.0.0')
 })
 
-test('major version (increment)', t => {
+test('major version (increment)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -72,10 +73,10 @@ test('major version (increment)', t => {
   version.major()
 
   // Expectations
-  t.is(version.get(), '1.0.1')
+  assert.strictEqual(version.get(), '1.0.1')
 })
 
-test('major version (set)', t => {
+test('major version (set)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -83,10 +84,10 @@ test('major version (set)', t => {
   version.major(3)
 
   // Expectations
-  t.is(version.get(), '3.0.1')
+  assert.strictEqual(version.get(), '3.0.1')
 })
 
-test('major version (set null)', t => {
+test('major version (set null)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -94,10 +95,10 @@ test('major version (set null)', t => {
   version.major(null)
 
   // Expectations
-  t.is(version.get(), '1.0.1')
+  assert.strictEqual(version.get(), '1.0.1')
 })
 
-test('newMinor version', t => {
+test('newMinor version', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -105,10 +106,10 @@ test('newMinor version', t => {
   version.newMinor()
 
   // Expectations
-  t.is(version.get(), '0.1.0')
+  assert.strictEqual(version.get(), '0.1.0')
 })
 
-test('newMinor version (after newMajor)', t => {
+test('newMinor version (after newMajor)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -116,10 +117,10 @@ test('newMinor version (after newMajor)', t => {
   version.newMajor().newMinor()
 
   // Expectations
-  t.is(version.get(), '1.1.0')
+  assert.strictEqual(version.get(), '1.1.0')
 })
 
-test('minor version (increment)', t => {
+test('minor version (increment)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -127,10 +128,10 @@ test('minor version (increment)', t => {
   version.minor()
 
   // Expectations
-  t.is(version.get(), '0.1.1')
+  assert.strictEqual(version.get(), '0.1.1')
 })
 
-test('minor version (set)', t => {
+test('minor version (set)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -138,10 +139,10 @@ test('minor version (set)', t => {
   version.minor(3)
 
   // Expectations
-  t.is(version.get(), '0.3.1')
+  assert.strictEqual(version.get(), '0.3.1')
 })
 
-test('minor version (set null)', t => {
+test('minor version (set null)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -149,10 +150,10 @@ test('minor version (set null)', t => {
   version.minor(null)
 
   // Expectations
-  t.is(version.get(), '0.1.1')
+  assert.strictEqual(version.get(), '0.1.1')
 })
 
-test('patch version (increment)', t => {
+test('patch version (increment)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -160,10 +161,10 @@ test('patch version (increment)', t => {
   version.patch()
 
   // Expectations
-  t.is(version.get(), '0.0.2')
+  assert.strictEqual(version.get(), '0.0.2')
 })
 
-test('patch version (set)', t => {
+test('patch version (set)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -171,10 +172,10 @@ test('patch version (set)', t => {
   version.patch(3)
 
   // Expectations
-  t.is(version.get(), '0.0.3')
+  assert.strictEqual(version.get(), '0.0.3')
 })
 
-test('patch version (set null)', t => {
+test('patch version (set null)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -182,10 +183,10 @@ test('patch version (set null)', t => {
   version.patch(null)
 
   // Expectations
-  t.is(version.get(), '0.0.2')
+  assert.strictEqual(version.get(), '0.0.2')
 })
 
-test('patch version (after newMajor)', t => {
+test('patch version (after newMajor)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -193,10 +194,10 @@ test('patch version (after newMajor)', t => {
   version.newMajor().patch()
 
   // Expectations
-  t.is(version.get(), '1.0.1')
+  assert.strictEqual(version.get(), '1.0.1')
 })
 
-test('patch version (after newMinor)', t => {
+test('patch version (after newMinor)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -204,10 +205,10 @@ test('patch version (after newMinor)', t => {
   version.newMinor().patch()
 
   // Expectations
-  t.is(version.get(), '0.1.1')
+  assert.strictEqual(version.get(), '0.1.1')
 })
 
-test('patch version (after newMajor and newMinor)', t => {
+test('patch version (after newMajor and newMinor)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -215,7 +216,7 @@ test('patch version (after newMajor and newMinor)', t => {
   version.newMajor().newMinor().patch()
 
   // Expectations
-  t.is(version.get(), '1.1.1')
+  assert.strictEqual(version.get(), '1.1.1')
 })
 
 const preReleaseSampleDataNumeric = { name: 'test package', version: '1.0.0-0.3.7' }
@@ -223,71 +224,71 @@ const preReleaseSampleDataAlpha = { name: 'test package', version: '1.0.0-alpha'
 const preReleaseSampleDataAlphaNumeric = { name: 'test package', version: '1.0.0-alpha.1' }
 const preReleaseSampleDataMixed = { name: 'test package', version: '1.0.0-x.7.z.92' }
 
-test('preRelease (get)', t => {
+test('preRelease (get)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
 
   // Expectations
-  t.is(version.get('prerelease'), 'alpha.1')
+  assert.strictEqual(version.get('prerelease'), 'alpha.1')
 })
 
-test('preRelease (get null)', t => {
+test('preRelease (get null)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.is(version.get('prerelease'), null)
+  assert.strictEqual(version.get('prerelease'), null)
 })
 
-test('preRelease (get - backward compatibility with typo)', t => {
+test('preRelease (get - backward compatibility with typo)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
 
   // Expectations - should still work with the old typo for backward compatibility
-  t.is(version.get('prelease'), 'alpha.1')
+  assert.strictEqual(version.get('prelease'), 'alpha.1')
 })
 
-test('preRelease (get null - backward compatibility with typo)', t => {
+test('preRelease (get null - backward compatibility with typo)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations - should still work with the old typo for backward compatibility
-  t.is(version.get('prelease'), null)
+  assert.strictEqual(version.get('prelease'), null)
 })
 
-test('preRelease (should handle numeric preRelease)', t => {
+test('preRelease (should handle numeric preRelease)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
 
   // Expectations
-  t.is(version.get(), preReleaseSampleDataNumeric.version)
+  assert.strictEqual(version.get(), preReleaseSampleDataNumeric.version)
 })
 
-test('preRelease (should handle alphabetic preRelease)', t => {
+test('preRelease (should handle alphabetic preRelease)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataAlpha))
 
   // Expectations
-  t.is(version.get(), preReleaseSampleDataAlpha.version)
+  assert.strictEqual(version.get(), preReleaseSampleDataAlpha.version)
 })
 
-test('preRelease (should handle alphaNumeric preRelease)', t => {
+test('preRelease (should handle alphaNumeric preRelease)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
 
   // Expectations
-  t.is(version.get(), preReleaseSampleDataAlphaNumeric.version)
+  assert.strictEqual(version.get(), preReleaseSampleDataAlphaNumeric.version)
 })
 
-test('preRelease (should handle mixed preRelease)', t => {
+test('preRelease (should handle mixed preRelease)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataMixed))
 
   // Expectations
-  t.is(version.get(), preReleaseSampleDataMixed.version)
+  assert.strictEqual(version.get(), preReleaseSampleDataMixed.version)
 })
 
-test('preRelease (should remove when updating Major)', t => {
+test('preRelease (should remove when updating Major)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
 
@@ -295,10 +296,10 @@ test('preRelease (should remove when updating Major)', t => {
   version.newMajor()
 
   // Expectations
-  t.is(version.get(), '1.0.0')
+  assert.strictEqual(version.get(), '1.0.0')
 })
 
-test('preRelease (should remove when updating minor)', t => {
+test('preRelease (should remove when updating minor)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
 
@@ -306,10 +307,10 @@ test('preRelease (should remove when updating minor)', t => {
   version.newMinor()
 
   // Expectations
-  t.is(version.get(), '1.0.0')
+  assert.strictEqual(version.get(), '1.0.0')
 })
 
-test('preRelease (should remove when updating patch)', t => {
+test('preRelease (should remove when updating patch)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataNumeric))
 
@@ -317,10 +318,10 @@ test('preRelease (should remove when updating patch)', t => {
   version.newPatch()
 
   // Expectations
-  t.is(version.get(), '1.0.0')
+  assert.strictEqual(version.get(), '1.0.0')
 })
 
-test('preRelease (increment)', t => {
+test('preRelease (increment)', () => {
   // Setup
   const version = new Version(Object.assign({}, preReleaseSampleDataAlphaNumeric))
 
@@ -328,10 +329,10 @@ test('preRelease (increment)', t => {
   version.prerelease('alpha')
 
   // Expectations
-  t.is(version.get(), '1.0.0-alpha.2')
+  assert.strictEqual(version.get(), '1.0.0-alpha.2')
 })
 
-test('preRelease (increment not set)', t => {
+test('preRelease (increment not set)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -339,10 +340,10 @@ test('preRelease (increment not set)', t => {
   version.prerelease('beta')
 
   // Expectations
-  t.is(version.get(), '0.0.2-beta.0')
+  assert.strictEqual(version.get(), '0.0.2-beta.0')
 })
 
-test('preRelease (set)', t => {
+test('preRelease (set)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
@@ -350,15 +351,15 @@ test('preRelease (set)', t => {
   version.prerelease('beta', 9)
 
   // Expectations
-  t.is(version.get(), '0.0.1-beta.9')
+  assert.strictEqual(version.get(), '0.0.1-beta.9')
 })
 
-test('preRelease (missing argument)', t => {
+test('preRelease (missing argument)', () => {
   // Setup
   const version = new Version(Object.assign({}, sampleData))
 
   // Expectations
-  t.throws(() => {
+  assert.throws(() => {
     version.prerelease()
   })
 })
