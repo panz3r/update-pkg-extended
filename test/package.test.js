@@ -1,4 +1,5 @@
-import test from 'ava'
+import { test, beforeEach, afterEach } from 'node:test'
+import assert from 'node:assert'
 import { join } from 'path'
 import { readPackage, readPackageSync, writePackageSync } from '../dist/utils/package-io.js'
 import { rimrafSync } from 'rimraf'
@@ -6,30 +7,40 @@ import tmp from 'tmp'
 
 import Pkg from '../dist/index.js'
 
+// Context storage for test hooks
+const testContext = new Map()
+
 // Create tmp dir for each test
-test.beforeEach(t => {
-  t.context.tmpDir = tmp.dirSync().name
+beforeEach((t) => {
+  testContext.set(t, { tmpDir: tmp.dirSync().name })
 })
 
 // Cleanup tmp dir
-test.afterEach.always(t => {
-  rimrafSync(t.context.tmpDir)
+afterEach((t) => {
+  const context = testContext.get(t)
+  if (context) {
+    rimrafSync(context.tmpDir)
+    testContext.delete(t)
+  }
 })
 
 // CONSTRUCTOR
 
-test('package not found', async t => {
-  const { tmpDir } = t.context
+test('package not found', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
-  // Actions
-  const err = t.throws(() => new Pkg(tmpDir))
-
-  // Expectations
-  t.is(err.code, 'ENOENT')
+  // Actions & Expectations
+  assert.throws(
+    () => new Pkg(tmpDir),
+    (err) => {
+      assert.strictEqual(err.code, 'ENOENT')
+      return true
+    }
+  )
 })
 
-test('create package', async t => {
-  const { tmpDir } = t.context
+test('create package', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -40,24 +51,24 @@ test('create package', async t => {
 
   // Expectations
   const tstPkg = readPackageSync({ cwd: tmpDir })
-  t.is(tstPkg.foo, 'bar')
+  assert.strictEqual(tstPkg.foo, 'bar')
 })
 
 // PATH
 
-test('get package.json path', async t => {
-  const { tmpDir } = t.context
+test('get package.json path', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Actions
   const pkg = new Pkg(tmpDir, { create: true })
 
   // Expectations
-  t.is(pkg.path, join(tmpDir, 'package.json'))
+  assert.strictEqual(pkg.path, join(tmpDir, 'package.json'))
 })
 
 // GET
 
-test('get property', async t => {
+test('get property', async (t) => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
@@ -65,10 +76,10 @@ test('get property', async t => {
   const pkgName = pkg.get('name')
 
   // Expectations
-  t.is(pkgName, 'update-pkg-extended')
+  assert.strictEqual(pkgName, 'update-pkg-extended')
 })
 
-test('get undefined property (with default value)', async t => {
+test('get undefined property (with default value)', async (t) => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
@@ -76,10 +87,10 @@ test('get undefined property (with default value)', async t => {
   const value = pkg.get('defaultValue', 'default')
 
   // Expectations
-  t.is(value, 'default')
+  assert.strictEqual(value, 'default')
 })
 
-test('get undefined property (without default value)', async t => {
+test('get undefined property (without default value)', async (t) => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
@@ -87,13 +98,13 @@ test('get undefined property (without default value)', async t => {
   const value = pkg.get('defaultValue')
 
   // Expectations
-  t.is(value, undefined)
+  assert.strictEqual(value, undefined)
 })
 
 // SET
 
-test('set property', async t => {
-  const { tmpDir } = t.context
+test('set property', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -104,11 +115,11 @@ test('set property', async t => {
 
   // Expectations
   const tstPkg = await readPackage({ cwd: tmpDir })
-  t.is(tstPkg.foo, 'bar')
+  assert.strictEqual(tstPkg.foo, 'bar')
 })
 
-test('set deep property', async t => {
-  const { tmpDir } = t.context
+test('set deep property', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -119,20 +130,20 @@ test('set deep property', async t => {
 
   // Expectations
   const savedPkg = await readPackage({ cwd: tmpDir })
-  t.is(savedPkg.bar.baz, 'foo')
+  assert.strictEqual(savedPkg.bar.baz, 'foo')
 })
 
 // DEL
 
-test('del property', async t => {
-  const { tmpDir } = t.context
+test('del property', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
   pkg.set('baz', 'delete me!')
   await pkg.save()
   const tstPkg = await readPackage({ cwd: tmpDir })
-  t.is(tstPkg.baz, 'delete me!')
+  assert.strictEqual(tstPkg.baz, 'delete me!')
 
   // Actions
   pkg.del('baz')
@@ -140,13 +151,13 @@ test('del property', async t => {
 
   // Expectations
   const savedPackage = await readPackage({ cwd: tmpDir })
-  t.is(savedPackage.baz, undefined)
+  assert.strictEqual(savedPackage.baz, undefined)
 })
 
 // HAS
 
-test('has property', async t => {
-  const { tmpDir } = t.context
+test('has property', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -155,7 +166,7 @@ test('has property', async t => {
   let variableExists = pkg.has('exists')
 
   // Expectations
-  t.falsy(variableExists)
+  assert.ok(!variableExists)
 
   // Reactions
   pkg.set('exists', 'now')
@@ -164,13 +175,13 @@ test('has property', async t => {
   variableExists = pkg.has('exists')
 
   // Expectations
-  t.truthy(variableExists)
+  assert.ok(variableExists)
 })
 
 // APPEND/PREPEND
 
-test('append', async t => {
-  const { tmpDir } = t.context
+test('append', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -183,11 +194,11 @@ test('append', async t => {
 
   // Expectations
   const savedPackage = await readPackage({ cwd: tmpDir })
-  t.deepEqual(savedPackage.app, ['a', 'b'])
+  assert.deepStrictEqual(savedPackage.app, ['a', 'b'])
 })
 
-test('prepend', async t => {
-  const { tmpDir } = t.context
+test('prepend', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -200,13 +211,13 @@ test('prepend', async t => {
 
   // Expectations
   const savedPackage = await readPackage({ cwd: tmpDir })
-  t.deepEqual(savedPackage.pre, ['b', 'a'])
+  assert.deepStrictEqual(savedPackage.pre, ['b', 'a'])
 })
 
 // VERSION
 
-test('version property', async t => {
-  const { tmpDir } = t.context
+test('version property', async (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   _createMockPackage(tmpDir)
@@ -216,13 +227,13 @@ test('version property', async t => {
   const version = pkg.version.get()
 
   // Expectations
-  t.is(version, '0.0.1')
+  assert.strictEqual(version, '0.0.1')
 })
 
 // SAVE
 
-test('saveSync', t => {
-  const { tmpDir } = t.context
+test('saveSync', (t) => {
+  const { tmpDir } = testContext.get(t)
 
   // Setup
   const pkg = new Pkg(tmpDir, { create: true })
@@ -233,7 +244,7 @@ test('saveSync', t => {
 
   // Expectations
   const savedPkg = readPackageSync({ cwd: tmpDir })
-  t.is(savedPkg.syncSave, 'tested')
+  assert.strictEqual(savedPkg.syncSave, 'tested')
 })
 
 // Utils
