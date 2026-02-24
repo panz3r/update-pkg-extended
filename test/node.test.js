@@ -1,8 +1,8 @@
-import { test, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert'
-import { join } from 'path'
-import { rimrafSync } from 'rimraf'
-import tmp from 'tmp'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { afterEach, beforeEach, test } from 'node:test'
 
 import { Pkg } from '../dist/node.js'
 
@@ -11,14 +11,14 @@ const testContext = new Map()
 
 // Create tmp dir for each test
 beforeEach((t) => {
-  testContext.set(t, { tmpDir: tmp.dirSync().name })
+  testContext.set(t, { tmpDir: mkdtempSync(join(tmpdir(), 'update-pkg-extended-')) })
 })
 
 // Cleanup tmp dir
 afterEach((t) => {
   const context = testContext.get(t)
   if (context) {
-    rimrafSync(context.tmpDir)
+    rmSync(context.tmpDir, { recursive: true, force: true })
     testContext.delete(t)
   }
 })

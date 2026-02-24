@@ -516,6 +516,9 @@ pnpm install
 # Build TypeScript to JavaScript
 pnpm run build
 
+# Run lint checks
+pnpm run lint
+
 # Run tests
 pnpm test
 
@@ -527,8 +530,9 @@ pnpm run coverage
 
 - `pnpm run build` - Compile TypeScript to JavaScript in `dist/` folder
 - `pnpm run clean` - Remove compiled `dist/` folder
+- `pnpm run lint` - Run StandardJS checks for source and tests
 - `pnpm test` - Build and run all tests
-- `pnpm run coverage` - Run tests with 100% coverage requirement
+- `pnpm run coverage` - Run tests with 100% line coverage requirement
 
 ## Credits
 

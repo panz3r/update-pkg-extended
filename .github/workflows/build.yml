@@ -25,11 +25,34 @@ jobs:
           cache: pnpm
           node-version: lts/*
 
-      - name: Run Standard linter on test files
-        run: pnpx standard --verbose "test/**/*.js"
-      
-      - name: Build TypeScript files 
-        run: pnpm i --frozen-lockfile && pnpm run build
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Run lint
+        run: pnpm run lint
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          cache: pnpm
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Run coverage checks
+        run: pnpm run coverage
 
   test:
     name: Test with Node ${{ matrix.node_version }} on ${{ matrix.os }}
