@@ -47,7 +47,7 @@ Bootstrap and validate the repository:
 - Install dependencies: `pnpm i --frozen-lockfile` -- takes 7 seconds. NEVER CANCEL.
 - Run tests: `pnpm test` -- takes 1 second for comprehensive test suite with 100% coverage. NEVER CANCEL.
 - Run linting: `pnpx standard --verbose "src/**/*.js" "test/**/*.js"` -- takes 16 seconds. NEVER CANCEL.
-- Run coverage check: `pnpm run coverage` -- takes 2 seconds, enforces 100% coverage. NEVER CANCEL.
+- Run coverage check: `pnpm run coverage` -- takes 2 seconds, enforces 100% line coverage via Node.js test runner. NEVER CANCEL.
 
 ## Validation
 
@@ -88,7 +88,7 @@ This is a pure ES module library with no build step required.
 - **Dependencies**: pnpm v10.17.0 package manager with frozen lockfile
 - **Tests**: Node.js built-in test runner (node:test) with comprehensive test suite achieving 100% code coverage
 - **Linting**: StandardJS linting enforced in CI
-- **Coverage**: c8 tool enforcing 100% line coverage
+- **Coverage**: Node.js test runner coverage enforcing 100% line coverage
 - **CI/CD**: GitHub Actions with matrix testing across Node.js versions and OS platforms
 
 Test commands with accurate timing:
@@ -162,7 +162,7 @@ pkg.del("unwanted.property"); // Delete property
 ### Dependencies
 
 - **Runtime**: All functionality is now implemented internally (internal utilities for property manipulation, file I/O, and version parsing)
-- **Development**: c8 (coverage), rimraf (cleanup), tmp (temp directories)
+- **Development**: native Node.js coverage, rimraf (cleanup)
 - **Testing**: Node.js built-in test runner (node:test)
 - **Package Manager**: pnpm with frozen lockfile for reproducible builds
 
