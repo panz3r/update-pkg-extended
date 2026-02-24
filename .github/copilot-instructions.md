@@ -162,7 +162,7 @@ pkg.del("unwanted.property"); // Delete property
 ### Dependencies
 
 - **Runtime**: All functionality is now implemented internally (internal utilities for property manipulation, file I/O, and version parsing)
-- **Development**: native Node.js coverage, rimraf (cleanup)
+- **Development**: native Node.js coverage
 - **Testing**: Node.js built-in test runner (node:test)
 - **Package Manager**: pnpm with frozen lockfile for reproducible builds
 
