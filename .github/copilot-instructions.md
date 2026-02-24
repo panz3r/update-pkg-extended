@@ -42,11 +42,11 @@ Always reference these instructions first and fallback to search or bash command
 
 Bootstrap and validate the repository:
 
-- Ensure Node.js >=18 is installed (tested with v20.19.5)
-- Install pnpm globally: `npm install -g pnpm` (requires v10.17.0)
+- Ensure Node.js >=18 is installed (tested with v25.6.1)
+- Enable pnpm version locally using corepack: `corepack enable`
 - Install dependencies: `pnpm i --frozen-lockfile` -- takes 7 seconds. NEVER CANCEL.
-- Run tests: `pnpm test` -- takes 1 second for comprehensive test suite with 100% coverage. NEVER CANCEL.
-- Run linting: `pnpx standard --verbose "src/**/*.js" "test/**/*.js"` -- takes 16 seconds. NEVER CANCEL.
+- Run tests: `pnpm test` -- takes 1 second for comprehensive test suite. NEVER CANCEL.
+- Run linting: `pnpm run lint` -- takes 16 seconds. NEVER CANCEL.
 - Run coverage check: `pnpm run coverage` -- takes 2 seconds, enforces 100% line coverage via Node.js test runner. NEVER CANCEL.
 
 ## Validation
@@ -57,23 +57,23 @@ Always manually validate your changes by creating a test scenario:
 - Test core functionality with a validation script:
 
 ```javascript
-import Pkg from "/home/runner/work/update-pkg-extended/update-pkg-extended/src/index.js";
+import Pkg from '/home/runner/work/update-pkg-extended/update-pkg-extended/src/index.js'
 
 // Test basic package creation and manipulation
-const pkg = new Pkg(".", { create: true });
-pkg.set("name", "test-package");
-pkg.version.major(1); // Set major version to 1
-pkg.version.minor(0); // Set minor version to 0
-pkg.version.patch(0); // Set patch version to 0
-console.log("After setting version to 1.0.0:", pkg.version.get());
+const pkg = new Pkg('.', { create: true })
+pkg.set('name', 'test-package')
+pkg.version.major(1) // Set major version to 1
+pkg.version.minor(0) // Set minor version to 0
+pkg.version.patch(0) // Set patch version to 0
+console.log('After setting version to 1.0.0:', pkg.version.get())
 
-pkg.set("scripts.test", "node --test");
-pkg.version.newMinor(); // Should increment to 1.1.0
-console.log("After newMinor:", pkg.version.get());
+pkg.set('scripts.test', 'node --test')
+pkg.version.newMinor() // Should increment to 1.1.0
+console.log('After newMinor:', pkg.version.get())
 
-pkg.saveSync();
+pkg.saveSync()
 
-console.log("Final package version:", pkg.version.get());
+console.log('Final package version:', pkg.version.get())
 // Verify the package.json file: cat package.json
 ```
 
@@ -95,7 +95,7 @@ Test commands with accurate timing:
 
 - `pnpm test` -- 1 second, runs full test suite with Node.js test runner
 - `pnpm run coverage` -- 2 seconds, runs tests with coverage enforcement
-- `pnpx standard --verbose "src/**/*.js" "test/**/*.js"` -- 16 seconds, lints all source files
+- `pnpm run lint` -- 16 seconds, lints JS test files with StandardJS
 
 NEVER CANCEL any command. All operations complete quickly (under 20 seconds).
 
