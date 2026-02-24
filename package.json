@@ -60,6 +60,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "lint": "pnpx standard --verbose \"src/**/*.ts\" \"test/**/*.js\"",
     "prepublishOnly": "pnpm run clean && pnpm run build",
     "test": "pnpm run build && node --test test/*.test.js",
     "coverage": "pnpm run build && node --experimental-test-coverage --test-coverage-lines=100 --test test/*.test.js"
