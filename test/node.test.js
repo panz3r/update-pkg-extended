@@ -25,7 +25,7 @@ afterEach((t) => {
 
 // CONSTRUCTOR TESTS
 
-test('Node Pkg constructor with data option (isomorphic mode)', (t) => {
+test('Node Pkg constructor with data option (isomorphic mode)', () => {
   const packageData = {
     name: 'isomorphic-test',
     version: '1.0.0',
@@ -40,7 +40,7 @@ test('Node Pkg constructor with data option (isomorphic mode)', (t) => {
   assert.ok(pkg.path) // Should still have a path even in isomorphic mode
 })
 
-test('Node Pkg constructor with options-only (isomorphic mode)', (t) => {
+test('Node Pkg constructor with options-only (isomorphic mode)', () => {
   const packageData = { name: 'test-pkg', version: '2.0.0' }
 
   const pkg = new Pkg({ data: packageData, create: true })
@@ -111,7 +111,7 @@ test('Node Pkg save async in isomorphic mode', async (t) => {
   assert.strictEqual(saved.author, 'Test Author')
 })
 
-test('Node Pkg inherits all core functionality', (t) => {
+test('Node Pkg inherits all core functionality', () => {
   const packageData = { name: 'inheritance-test', version: '1.0.0' }
   const pkg = new Pkg({ data: packageData })
 
@@ -206,7 +206,7 @@ test('Node Pkg path property works correctly', (t) => {
   assert.strictEqual(pkg.path, join(tmpDir, 'package.json'))
 })
 
-test('Node Pkg options property is accessible', (t) => {
+test('Node Pkg options property is accessible', () => {
   const pkg = new Pkg('./', { create: true })
 
   assert.strictEqual(pkg.options.create, true)
@@ -214,7 +214,7 @@ test('Node Pkg options property is accessible', (t) => {
 
 // EDGE CASES
 
-test('Node Pkg handles null/undefined constructor args gracefully', (t) => {
+test('Node Pkg handles null/undefined constructor args gracefully', () => {
   assert.doesNotThrow(() => new Pkg())
   assert.doesNotThrow(() => new Pkg(undefined))
   assert.doesNotThrow(() => new Pkg(undefined, undefined))

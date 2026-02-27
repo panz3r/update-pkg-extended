@@ -87,7 +87,7 @@ This is a pure ES module library with no build step required.
 
 - **Dependencies**: pnpm v10.17.0 package manager with frozen lockfile
 - **Tests**: Node.js built-in test runner (node:test) with comprehensive test suite achieving 100% code coverage
-- **Linting**: StandardJS linting enforced in CI
+- **Linting**: oxlint enforced in CI
 - **Coverage**: Node.js test runner coverage enforcing 100% line coverage
 - **CI/CD**: GitHub Actions with matrix testing across Node.js versions and OS platforms
 
@@ -95,7 +95,7 @@ Test commands with accurate timing:
 
 - `pnpm test` -- 1 second, runs full test suite with Node.js test runner
 - `pnpm run coverage` -- 2 seconds, runs tests with coverage enforcement
-- `pnpm run lint` -- 16 seconds, lints JS test files with StandardJS
+- `pnpm run lint` -- 16 seconds, lints JS test files with oxlint
 
 NEVER CANCEL any command. All operations complete quickly (under 20 seconds).
 

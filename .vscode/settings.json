@@ -1,0 +1,9 @@
+{
+    // UI Setting:
+    // OXLint
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    // TypeScript (Native Preview) > Use Tsgo
+    "typescript.experimental.useTsgo": true,
+}

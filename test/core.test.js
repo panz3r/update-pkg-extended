@@ -70,7 +70,7 @@ test('PkgCore get with default value', () => {
 test('PkgCore update property', () => {
   const pkg = new Pkg({ data: { version: '1.0.0' } })
 
-  pkg.update('version', (v) => '2.0.0')
+  pkg.update('version', () => '2.0.0')
 
   assert.strictEqual(pkg.get('version'), '2.0.0')
 })
