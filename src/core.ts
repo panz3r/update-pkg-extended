@@ -28,7 +28,7 @@ export class PkgCore {
   version: Version
   private _data: PackageData
 
-  constructor(data?: PackageData | PkgCoreOptions, options?: PkgCoreOptions) {
+  constructor(data?: PackageData | PkgCoreOptions, _options?: PkgCoreOptions) {
     // Handle overloaded constructor signatures
     let packageData: PackageData
     

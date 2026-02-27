@@ -69,7 +69,7 @@ test('get package.json path', async (t) => {
 
 // GET
 
-test('get property', async (t) => {
+test('get property', async () => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
@@ -80,7 +80,7 @@ test('get property', async (t) => {
   assert.strictEqual(pkgName, 'update-pkg-extended')
 })
 
-test('get undefined property (with default value)', async (t) => {
+test('get undefined property (with default value)', async () => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
@@ -91,7 +91,7 @@ test('get undefined property (with default value)', async (t) => {
   assert.strictEqual(value, 'default')
 })
 
-test('get undefined property (without default value)', async (t) => {
+test('get undefined property (without default value)', async () => {
   // Setup
   const pkg = new Pkg() // => Load real `package.json`
 
