@@ -2,7 +2,7 @@
 
 > Update package.json with ease - Now with isomorphic support! 🌐
 
-[![license](https://img.shields.io/npm/l/update-pkg-extended)](LICENSE) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![license](https://img.shields.io/npm/l/update-pkg-extended)](LICENSE)
 
 [![Build](https://github.com/panz3r/update-pkg-extended/workflows/Build/badge.svg)](https://github.com/panz3r/update-pkg-extended/actions?query=workflow%3ABuild)
 [![Github Issues](https://img.shields.io/github/issues/panz3r/update-pkg-extended.svg)](https://github.com/panz3r/update-pkg-extended/issues)
@@ -530,7 +530,7 @@ pnpm run coverage
 
 - `pnpm run build` - Compile TypeScript to JavaScript in `dist/` folder
 - `pnpm run clean` - Remove compiled `dist/` folder
-- `pnpm run lint` - Run StandardJS checks for source and tests
+- `pnpm run lint` - Run oxlint checks for source and tests
 - `pnpm test` - Build and run all tests
 - `pnpm run coverage` - Run tests with 100% line coverage requirement
 
